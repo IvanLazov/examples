@@ -7,7 +7,7 @@
 
   <servlet>
     <servlet-name>GWTBank GWTBankService</servlet-name>
-    <servlet-class>com.clouway.gwt.GWTBank.server.GWTBankServiceImpl</servlet-class>
+    <servlet-class>com.clouway.gwt.gwtbank.server.GWTBankServiceImpl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GWTBank GWTBankService</servlet-name>

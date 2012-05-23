@@ -6,6 +6,6 @@
   <inherits name='com.google.gwt.user.User'/>
 
   <!-- Specify the app entry point class.                   -->
-  <entry-point class='com.clouway.gwt.GWTBank.client.GWTBank'/>
+  <entry-point class='com.clouway.gwt.gwtbank.client.GWTBank'/>
 
 </module>

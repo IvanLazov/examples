@@ -1,4 +1,4 @@
-package com.clouway.gwt.GWTBank.client;
+package com.clouway.gwt.gwtbank.client;
 
 import com.google.gwt.core.client.EntryPoint;
 

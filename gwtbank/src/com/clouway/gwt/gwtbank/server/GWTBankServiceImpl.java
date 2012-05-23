@@ -1,7 +1,7 @@
-package com.clouway.gwt.GWTBank.server;
+package com.clouway.gwt.gwtbank.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.clouway.gwt.GWTBank.client.GWTBankService;
+import com.clouway.gwt.gwtbank.client.GWTBankService;
 
 public class GWTBankServiceImpl extends RemoteServiceServlet implements GWTBankService {
   // Implementation of sample interface method
