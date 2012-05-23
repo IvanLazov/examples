@@ -29,7 +29,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="gwt-user" level="project" />
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
@@ -37,6 +36,26 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/gwt-user.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/hamcrest-core-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/hamcrest-library-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/jmock-2.5.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/jmock-junit4-2.5.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/junit-4.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../lib/gwt-user.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/hamcrest-core-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/hamcrest-library-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/jmock-2.5.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/jmock-junit4-2.5.1.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
