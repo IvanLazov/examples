@@ -1,4 +1,6 @@
 .idea
 examples.iml
+out
+
 */out/
-/out
+*/*.iml
