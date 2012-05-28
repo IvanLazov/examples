@@ -1,14 +1,15 @@
 package com.clouway.gwt.bank.client.register;
 
 import com.clouway.gwt.bank.client.BankServiceAsync;
+import com.clouway.gwt.bank.client.register.exceptions.InvalidPasswordException;
+import com.clouway.gwt.bank.client.register.exceptions.InvalidUsernameException;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,38 +19,92 @@ import org.junit.runner.RunWith;
 @RunWith(JMock.class)
 public class RegisterPresenterTest {
 
-  private Mockery mockery = new JUnit4Mockery();
-  private BankServiceAsync mockRpcService = mockery.mock(BankServiceAsync.class);
-  private RegisterView mockRegisterView = mockery.mock(RegisterView.class);
+  private Mockery context = new JUnit4Mockery();
 
-  @Test
-  public void callRpcService() {
+  private RegisterPresenter registerPresenter;
+  private BankServiceAsync mockRpcService = context.mock(BankServiceAsync.class);
+  private RegisterView mockRegisterView = context.mock(RegisterView.class);
 
-    RegisterPresenter registerPresenter = new RegisterPresenter(mockRpcService, mockRegisterView);
+  private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
+  private InstanceMatcher<AsyncCallback<Void>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
+  private InstanceMatcher<String> notificationInstanceMatcher = new InstanceMatcher<String>();
 
-    final InstanceCatcher<User> userInstanceCatcher = new InstanceCatcher<User>();
-    final InstanceCatcher<AsyncCallback<User>> asyncCallbackInstanceCatcher = new InstanceCatcher<AsyncCallback<User>>();
-    final User user = new User("Ivan", "123456");
-
-    mockery.checking(new Expectations(){{
-      oneOf(mockRpcService).registerUser(with(userInstanceCatcher),with(asyncCallbackInstanceCatcher));
-    }});
-
-    registerPresenter.onRegisterUser(user);
+  @Before
+  public void setUp() {
+    registerPresenter = new RegisterPresenter(mockRpcService, mockRegisterView);
   }
 
-  class InstanceCatcher<T> extends BaseMatcher<T> {
+  @Test
+  public void newUserRegistration() {
 
-    private T instance;
+    context.checking(new Expectations() {{
+      oneOf(mockRegisterView).getUser();
+      will(returnValue(new User("Test", "password")));
 
-    @Override
-    public boolean matches(Object item) {
-      instance = (T) item;
-      return true;
-    }
+      oneOf(mockRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-    @Override
-    public void describeTo(Description description) {
-    }
+      oneOf(mockRegisterView).clearFields();
+      oneOf(mockRegisterView).setNotification(with(notificationInstanceMatcher));
+    }});
+
+    registerPresenter.registerUser();
+    asyncCallbackInstanceMatcher.getInstance().onSuccess(null);
+  }
+
+  @Test(expected = InvalidUsernameException.class)
+  public void usernameIsEmpty() {
+
+    mockedViewReturnsUser(new User("", "password"));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidUsernameException.class)
+  public void usernameIsTooLong() {
+
+    mockedViewReturnsUser(new User("TestTestTestTestTestTest", "password"));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidUsernameException.class)
+  public void usernameContainsForbiddenCharacters() {
+
+    mockedViewReturnsUser(new User("Test@#$", "password"));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidPasswordException.class)
+  public void passwordIsEmtpy() {
+
+    mockedViewReturnsUser(new User("Test", ""));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidPasswordException.class)
+  public void passwordIsTooShort() {
+
+    mockedViewReturnsUser(new User("Test", "pass"));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidPasswordException.class)
+  public void passwordIsTooLong() {
+
+    mockedViewReturnsUser(new User("Test", "passwordpasswordpassword"));
+    registerPresenter.registerUser();
+  }
+
+  @Test(expected = InvalidPasswordException.class)
+  public void passwordContainsForbiddenCharacters() {
+
+    mockedViewReturnsUser(new User("Test", "password@#$%"));
+    registerPresenter.registerUser();
+  }
+
+  private void mockedViewReturnsUser(final User user) {
+
+    context.checking(new Expectations() {{
+      oneOf(mockRegisterView).getUser();
+      will(returnValue(user));
+    }});
   }
 }
