@@ -4,5 +4,5 @@ import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface BankServiceAsync {
-  void registerUser(User user, AsyncCallback<User> callback);
+  void registerUser(User user, AsyncCallback<Void> async);
 }
