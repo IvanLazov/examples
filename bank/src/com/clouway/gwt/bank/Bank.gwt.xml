@@ -5,4 +5,7 @@
   <inherits name='com.google.gwt.user.User'/>
   <entry-point class='com.clouway.gwt.bank.client.Bank'/>
 
+  <source path="client"/>
+  <source path="shared"/>
+
 </module>
