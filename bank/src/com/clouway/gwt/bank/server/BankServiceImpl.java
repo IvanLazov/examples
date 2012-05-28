@@ -6,7 +6,7 @@ import com.clouway.gwt.bank.client.BankService;
 
 public class BankServiceImpl extends RemoteServiceServlet implements BankService {
 
-  public User registerUser(User user) {
-    return null;
+  public void registerUser(User user) {
+
   }
 }
