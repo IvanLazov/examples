@@ -6,5 +6,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("BankService")
 public interface BankService extends RemoteService {
-  User registerUser(User user);
+  void registerUser(User user);
 }
