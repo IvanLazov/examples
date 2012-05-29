@@ -22,88 +22,109 @@ public class RegisterPresenterTest {
   private Mockery context = new JUnit4Mockery();
 
   private RegisterPresenter registerPresenter;
-  private BankServiceAsync mockRpcService = context.mock(BankServiceAsync.class);
-  private RegisterView mockRegisterView = context.mock(RegisterView.class);
+  private BankServiceAsync fooRpcService = context.mock(BankServiceAsync.class);
+  private RegisterView fooRegisterView = context.mock(RegisterView.class);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
   private InstanceMatcher<AsyncCallback<Void>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
+  private InstanceMatcher<String> notificationMessage = new InstanceMatcher<String>();
 
   @Before
   public void setUp() {
-    registerPresenter = new RegisterPresenter(mockRpcService, mockRegisterView);
+    registerPresenter = new RegisterPresenter(fooRpcService, fooRegisterView);
   }
 
   @Test
   public void newUserRegistration() {
 
     context.checking(new Expectations() {{
-      oneOf(mockRegisterView).getUser();
+      oneOf(fooRegisterView).getUser();
       will(returnValue(new User("Test", "password")));
 
-      oneOf(mockRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+      oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-      oneOf(mockRegisterView).clearFields();
-      oneOf(mockRegisterView).setNotification(with("Registration was successful!"));
+      oneOf(fooRegisterView).clearFields();
+      oneOf(fooRegisterView).setNotification(with("Registration was successful!"));
     }});
 
     registerPresenter.registerUser();
     asyncCallbackInstanceMatcher.getInstance().onSuccess(null);
   }
 
-  @Test(expected = WrongUsernameException.class)
+  @Test
   public void usernameIsEmpty() {
 
-    mockedViewReturnsUser(new User("", "password"));
+    pretendEnteredUserIs(new User("", "password"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = WrongUsernameException.class)
+  @Test
   public void usernameIsTooLong() {
 
-    mockedViewReturnsUser(new User("TestTestTestTestTestTest", "password"));
+    pretendEnteredUserIs(new User("TestTestTestTestTestTest", "password"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = WrongUsernameException.class)
-  public void usernameContainsForbiddenCharacters() {
-
-    mockedViewReturnsUser(new User("Test@#$", "password"));
-    registerPresenter.registerUser();
-  }
-
-  @Test(expected = WrongPasswordException.class)
+  @Test
   public void passwordIsEmtpy() {
 
-    mockedViewReturnsUser(new User("Test", ""));
+    pretendEnteredUserIs(new User("Test", ""));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = WrongPasswordException.class)
+  @Test
   public void passwordIsTooShort() {
 
-    mockedViewReturnsUser(new User("Test", "pass"));
+    pretendEnteredUserIs(new User("Test", "pass"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = WrongPasswordException.class)
+  @Test
   public void passwordIsTooLong() {
 
-    mockedViewReturnsUser(new User("Test", "passwordpasswordpassword"));
+    pretendEnteredUserIs(new User("Test", "passwordpasswordpassword"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = WrongPasswordException.class)
-  public void passwordContainsForbiddenCharacters() {
+  @Test
+  public void wrongUsernameExceptionIsCaught() {
 
-    mockedViewReturnsUser(new User("Test", "password@#$%"));
+    pretendEnteredUserDataIsSent(new User("Test", "password"));
+
     registerPresenter.registerUser();
+    asyncCallbackInstanceMatcher.getInstance().onFailure(new WrongUsernameException());
   }
 
-  private void mockedViewReturnsUser(final User user) {
+  @Test
+  public void wrongPasswordExceptionIsCaught() {
+
+    pretendEnteredUserDataIsSent(new User("Test", "password"));
+
+    registerPresenter.registerUser();
+    asyncCallbackInstanceMatcher.getInstance().onFailure(new WrongPasswordException());
+  }
+
+  private void pretendEnteredUserIs(final User user) {
 
     context.checking(new Expectations() {{
-      oneOf(mockRegisterView).getUser();
+      oneOf(fooRegisterView).getUser();
       will(returnValue(user));
+
+      oneOf(fooRegisterView).clearFields();
+      oneOf(fooRegisterView).setNotification(with(notificationMessage));
+    }});
+  }
+
+  private void pretendEnteredUserDataIsSent(final User user) {
+
+    context.checking(new Expectations(){{
+      oneOf(fooRegisterView).getUser();
+      will(returnValue(user));
+
+      oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+
+      oneOf(fooRegisterView).clearFields();
+      oneOf(fooRegisterView).setNotification(with(notificationMessage));
     }});
   }
 }
