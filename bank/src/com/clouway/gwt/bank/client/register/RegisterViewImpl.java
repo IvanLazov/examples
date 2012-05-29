@@ -1,7 +1,5 @@
 package com.clouway.gwt.bank.client.register;
 
-import com.clouway.gwt.bank.client.register.exceptions.WrongPasswordException;
-import com.clouway.gwt.bank.client.register.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -55,16 +53,7 @@ public class RegisterViewImpl extends Composite implements RegisterView {
   @UiHandler("register")
   void onRegisterButtonClicked(ClickEvent event) {
     if (presenter != null) {
-
-      try {
         presenter.registerUser();
-      } catch (WrongUsernameException exception) {
-        notification.setText("Invalid username!");
-      } catch (WrongPasswordException exception) {
-        notification.setText("Invalid password!");
-      }
-
-      clearFields();
     }
   }
 
