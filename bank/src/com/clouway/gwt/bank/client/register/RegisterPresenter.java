@@ -32,27 +32,40 @@ public class RegisterPresenter implements Presenter, RegisterView.Presenter {
 
     User user = view.getUser();
 
-    if (!matches(user.getUsername(), "^[a-zA-Z0-9]{1,20}$")) {
-      throw new WrongUsernameException();
+    if (!matches(user.getUsername(),"^[a-zA-Z0-9]{1,20}$")) {
+      displayNotificationMessage("Username must contain only letters and digits! Length (1-20)");
+      return;
     }
 
-    if (!matches(user.getPassword(), "^[a-zA-Z0-9]{6,20}$")) {
-      throw new WrongPasswordException();
+    if (!matches(user.getPassword(),"^[a-zA-Z0-9]{6,20}$")) {
+      displayNotificationMessage("Password must contain only letters and digits! Length (6-20)");
+      return;
     }
 
     rpcService.registerUser(user, new AsyncCallback<Void>() {
       public void onFailure(Throwable caught) {
 
+        if (caught instanceof WrongUsernameException) {
+          displayNotificationMessage("Wrong username! Username must contain only letters and digits!");
+        }
+
+        if (caught instanceof WrongPasswordException) {
+          displayNotificationMessage("Wrong password! Username must contain only letters and digits!");
+        }
       }
 
       public void onSuccess(Void result) {
-        view.clearFields();
-        view.setNotification("Registration was successful!");
+        displayNotificationMessage("Registration was successful!");
       }
     });
   }
 
   private boolean matches(String input, String pattern) {
     return RegExp.compile(pattern).test(input);
+  }
+
+  private void displayNotificationMessage(String message) {
+    view.clearFields();
+    view.setNotification(message);
   }
 }
