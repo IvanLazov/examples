@@ -2,13 +2,14 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
   <ui:style>
+
+    .container {
+      width: 100%;
+    }
+
     .registrationForm {
 
       position: relative;
-
-      border: 1px;
-      border-style: solid;
-      border-color: #000000;
 
       width: 160px;
 
@@ -16,24 +17,28 @@
       margin-left: auto;
       margin-right: auto;
 
-      padding: 10 20 10 20;
+      padding: 10 15 10 15;
+      background-color: #f5f5f5;
     }
 
     .notificationLabel {
-
-      position: absolute;
-      bottom: -50px;
       text-align: center;
+      margin-top: 10px;
     }
   </ui:style>
 
-  <g:HTMLPanel addStyleNames="{style.registrationForm}">
-    <g:Label text="Username:" />
-    <g:TextBox ui:field="username" />
-    <g:Label text="Password:" />
-    <g:PasswordTextBox ui:field="password" />
-    <g:Button ui:field="register" text="Register" />
+  <g:VerticalPanel addStyleNames="{style.container}">
+
+    <g:HTMLPanel addStyleNames="{style.registrationForm}">
+      <g:Label text="Username:" />
+      <g:TextBox ui:field="username" />
+      <g:Label text="Password:" />
+      <g:PasswordTextBox ui:field="password" />
+      <g:Button ui:field="register" text="Register" />
+    </g:HTMLPanel>
+
     <g:Label ui:field="notification" addStyleNames="{style.notificationLabel}"/>
-  </g:HTMLPanel>
+
+  </g:VerticalPanel>
 
 </ui:UiBinder>
