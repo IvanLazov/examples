@@ -27,7 +27,6 @@ public class RegisterPresenterTest {
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
   private InstanceMatcher<AsyncCallback<Void>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
-  private InstanceMatcher<String> notificationInstanceMatcher = new InstanceMatcher<String>();
 
   @Before
   public void setUp() {
@@ -44,7 +43,7 @@ public class RegisterPresenterTest {
       oneOf(mockRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
       oneOf(mockRegisterView).clearFields();
-      oneOf(mockRegisterView).setNotification(with(notificationInstanceMatcher));
+      oneOf(mockRegisterView).setNotification(with("Registration was successful!"));
     }});
 
     registerPresenter.registerUser();
