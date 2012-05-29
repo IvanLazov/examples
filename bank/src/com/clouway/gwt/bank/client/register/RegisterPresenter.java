@@ -2,8 +2,8 @@ package com.clouway.gwt.bank.client.register;
 
 import com.clouway.gwt.bank.client.BankServiceAsync;
 import com.clouway.gwt.bank.client.presenter.Presenter;
-import com.clouway.gwt.bank.client.register.exceptions.InvalidPasswordException;
-import com.clouway.gwt.bank.client.register.exceptions.InvalidUsernameException;
+import com.clouway.gwt.bank.client.register.exceptions.WrongPasswordException;
+import com.clouway.gwt.bank.client.register.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,11 +33,11 @@ public class RegisterPresenter implements Presenter, RegisterView.Presenter {
     User user = view.getUser();
 
     if (!matches(user.getUsername(), "^[a-zA-Z0-9]{1,20}$")) {
-      throw new InvalidUsernameException();
+      throw new WrongUsernameException();
     }
 
     if (!matches(user.getPassword(), "^[a-zA-Z0-9]{6,20}$")) {
-      throw new InvalidPasswordException();
+      throw new WrongPasswordException();
     }
 
     rpcService.registerUser(user, new AsyncCallback<Void>() {

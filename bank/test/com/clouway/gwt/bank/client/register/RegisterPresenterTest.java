@@ -1,8 +1,8 @@
 package com.clouway.gwt.bank.client.register;
 
 import com.clouway.gwt.bank.client.BankServiceAsync;
-import com.clouway.gwt.bank.client.register.exceptions.InvalidPasswordException;
-import com.clouway.gwt.bank.client.register.exceptions.InvalidUsernameException;
+import com.clouway.gwt.bank.client.register.exceptions.WrongPasswordException;
+import com.clouway.gwt.bank.client.register.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
@@ -50,49 +50,49 @@ public class RegisterPresenterTest {
     asyncCallbackInstanceMatcher.getInstance().onSuccess(null);
   }
 
-  @Test(expected = InvalidUsernameException.class)
+  @Test(expected = WrongUsernameException.class)
   public void usernameIsEmpty() {
 
     mockedViewReturnsUser(new User("", "password"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidUsernameException.class)
+  @Test(expected = WrongUsernameException.class)
   public void usernameIsTooLong() {
 
     mockedViewReturnsUser(new User("TestTestTestTestTestTest", "password"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidUsernameException.class)
+  @Test(expected = WrongUsernameException.class)
   public void usernameContainsForbiddenCharacters() {
 
     mockedViewReturnsUser(new User("Test@#$", "password"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidPasswordException.class)
+  @Test(expected = WrongPasswordException.class)
   public void passwordIsEmtpy() {
 
     mockedViewReturnsUser(new User("Test", ""));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidPasswordException.class)
+  @Test(expected = WrongPasswordException.class)
   public void passwordIsTooShort() {
 
     mockedViewReturnsUser(new User("Test", "pass"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidPasswordException.class)
+  @Test(expected = WrongPasswordException.class)
   public void passwordIsTooLong() {
 
     mockedViewReturnsUser(new User("Test", "passwordpasswordpassword"));
     registerPresenter.registerUser();
   }
 
-  @Test(expected = InvalidPasswordException.class)
+  @Test(expected = WrongPasswordException.class)
   public void passwordContainsForbiddenCharacters() {
 
     mockedViewReturnsUser(new User("Test", "password@#$%"));
