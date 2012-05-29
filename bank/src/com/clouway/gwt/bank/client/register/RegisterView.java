@@ -1,7 +1,5 @@
 package com.clouway.gwt.bank.client.register;
 
-import com.clouway.gwt.bank.client.register.exceptions.WrongPasswordException;
-import com.clouway.gwt.bank.client.register.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
 
 /**
@@ -10,7 +8,7 @@ import com.clouway.gwt.bank.shared.User;
 public interface RegisterView {
 
   public interface Presenter {
-    void registerUser() throws WrongUsernameException, WrongPasswordException;
+    void registerUser();
   }
 
   User getUser();
