@@ -1,4 +1,4 @@
-package com.clouway.gwt.bank.client.register.exceptions;
+package com.clouway.gwt.bank.client.exceptions;
 
 import java.io.Serializable;
 
