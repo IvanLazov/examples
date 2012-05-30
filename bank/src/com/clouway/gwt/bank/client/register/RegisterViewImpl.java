@@ -51,7 +51,7 @@ public class RegisterViewImpl extends Composite implements RegisterView {
   }
 
   public void showWrongPasswordNotification() {
-    notification.setText("Username must contain only characters and digits! Length (1-20) characters!");
+    notification.setText("Password must contain only characters and digits! Length (6-20) characters!");
   }
 
   public void showSuccessfulRegistrationNotification() {
