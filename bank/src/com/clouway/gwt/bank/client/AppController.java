@@ -1,7 +1,5 @@
 package com.clouway.gwt.bank.client;
 
-import com.clouway.gwt.bank.client.register.RegisterNotificationMessages;
-import com.clouway.gwt.bank.client.register.RegisterNotificationMessagesImpl;
 import com.clouway.gwt.bank.client.presenter.Presenter;
 import com.clouway.gwt.bank.client.register.RegisterPresenter;
 import com.clouway.gwt.bank.client.register.RegisterView;
@@ -19,7 +17,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final BankServiceAsync rpcService;
   private HasWidgets container;
   private RegisterView registerView;
-  private RegisterNotificationMessages registerNotificationMessages;
 
   public AppController(BankServiceAsync rpcService) {
     this.rpcService = rpcService;
@@ -46,17 +43,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     String token = event.getValue();
 
     if (token != null) {
-      if (token.equals("register")) {
 
+      if (token.equals("register")) {
         if (registerView == null) {
           registerView = new RegisterViewImpl();
         }
-
-        if (registerNotificationMessages == null) {
-          registerNotificationMessages = new RegisterNotificationMessagesImpl();
-        }
-
-        new RegisterPresenter(rpcService, registerView, registerNotificationMessages).go(container);
+        new RegisterPresenter(rpcService, registerView).go(container);
       }
     }
   }
