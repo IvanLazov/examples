@@ -57,8 +57,11 @@ public class RegisterViewImpl extends Composite implements RegisterView {
     }
   }
 
-  public void clearFields() {
+  public void clearUsernameField() {
     username.setText("");
+  }
+
+  public void clearPasswordField() {
     password.setText("");
   }
 }
