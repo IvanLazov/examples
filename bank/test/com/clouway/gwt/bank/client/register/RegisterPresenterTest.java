@@ -24,24 +24,19 @@ public class RegisterPresenterTest {
   private RegisterPresenter registerPresenter;
   private BankServiceAsync fooRpcService = context.mock(BankServiceAsync.class);
   private RegisterView fooRegisterView = context.mock(RegisterView.class);
-  private RegisterNotificationMessages fooNotification = context.mock(RegisterNotificationMessages.class);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
   private InstanceMatcher<AsyncCallback<Void>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
 
-  private final String usernameNotificationMessage = "Username must contain only letters and digits! Length (1-20) characters.";
-  private final String passwordNotificationMessage = "Password must contain only letters and digits! Length (6-20) characters.";
   private final User user = new User("Test", "password");
 
   @Before
   public void setUp() {
-    registerPresenter = new RegisterPresenter(fooRpcService, fooRegisterView, fooNotification);
+    registerPresenter = new RegisterPresenter(fooRpcService, fooRegisterView);
   }
 
   @Test
   public void happyPath() {
-
-    final String message = "Registration successful!";
 
     context.checking(new Expectations() {{
       oneOf(fooRegisterView).getUser();
@@ -49,10 +44,7 @@ public class RegisterPresenterTest {
 
       oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-      oneOf(fooNotification).successfulRegistrationMessage();
-      will(returnValue(message));
-
-      oneOf(fooRegisterView).setNotification(message);
+      oneOf(fooRegisterView).showSuccessfulRegistrationNotification();
       oneOf(fooRegisterView).clearUsernameField();
       oneOf(fooRegisterView).clearPasswordField();
     }});
@@ -80,10 +72,7 @@ public class RegisterPresenterTest {
       oneOf(fooRegisterView).getUser();
       will(returnValue(new User(username,  "password")));
 
-      oneOf(fooNotification).wrongUsernameMessage();
-      will(returnValue(usernameNotificationMessage));
-
-      oneOf(fooRegisterView).setNotification(usernameNotificationMessage);
+      oneOf(fooRegisterView).showWrongUsernameNotification();
       oneOf(fooRegisterView).clearPasswordField();
     }});
   }
@@ -114,10 +103,7 @@ public class RegisterPresenterTest {
       oneOf(fooRegisterView).getUser();
       will(returnValue(new User("Test", password)));
 
-      oneOf(fooNotification).wrongPasswordMessage();
-      will(returnValue(passwordNotificationMessage));
-
-      oneOf(fooRegisterView).setNotification(passwordNotificationMessage);
+      oneOf(fooRegisterView).showWrongPasswordNotification();
       oneOf(fooRegisterView).clearPasswordField();
     }});
   }
@@ -131,10 +117,7 @@ public class RegisterPresenterTest {
 
       oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-      oneOf(fooNotification).wrongUsernameMessage();
-      will(returnValue(usernameNotificationMessage));
-
-      oneOf(fooRegisterView).setNotification(usernameNotificationMessage);
+      oneOf(fooRegisterView).showWrongUsernameNotification();
       oneOf(fooRegisterView).clearPasswordField();
     }});
 
@@ -151,10 +134,7 @@ public class RegisterPresenterTest {
 
       oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-      oneOf(fooNotification).wrongPasswordMessage();
-      will(returnValue(passwordNotificationMessage));
-
-      oneOf(fooRegisterView).setNotification(passwordNotificationMessage);
+      oneOf(fooRegisterView).showWrongPasswordNotification();
       oneOf(fooRegisterView).clearPasswordField();
     }});
 
