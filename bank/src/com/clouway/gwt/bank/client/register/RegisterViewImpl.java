@@ -42,12 +42,20 @@ public class RegisterViewImpl extends Composite implements RegisterView {
     return new User(username.getText(), password.getText());
   }
 
-  public void setNotification(String message) {
-    this.notification.setText(message);
-  }
-
   public void setPresenter(Presenter presenter) {
     this.presenter = presenter;
+  }
+
+  public void showWrongUsernameNotification() {
+    notification.setText("Username must contain only characters and digits! Length (1-20) characters!");
+  }
+
+  public void showWrongPasswordNotification() {
+    notification.setText("Username must contain only characters and digits! Length (1-20) characters!");
+  }
+
+  public void showSuccessfulRegistrationNotification() {
+    notification.setText("Registration was successful!");
   }
 
   @UiHandler("register")
