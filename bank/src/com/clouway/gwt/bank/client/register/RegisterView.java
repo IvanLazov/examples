@@ -12,7 +12,8 @@ public interface RegisterView {
   }
 
   User getUser();
-  void clearFields();
+  void clearPasswordField();
+  void clearUsernameField();
   void setNotification(String message);
   void setPresenter(Presenter presenter);
 }
