@@ -17,12 +17,10 @@ public class RegisterPresenter implements Presenter, RegisterView.Presenter {
 
   private final BankServiceAsync rpcService;
   private final RegisterView view;
-  private final RegisterNotificationMessages notification;
 
-  public RegisterPresenter(BankServiceAsync rpcService, RegisterView view, RegisterNotificationMessages notification) {
+  public RegisterPresenter(BankServiceAsync rpcService, RegisterView view) {
     this.rpcService = rpcService;
     this.view = view;
-    this.notification = notification;
   }
 
   public void go(HasWidgets container) {
@@ -35,13 +33,13 @@ public class RegisterPresenter implements Presenter, RegisterView.Presenter {
     User user = view.getUser();
 
     if (!matches(user.getUsername(),"^[a-zA-Z0-9]{1,20}$")) {
-      view.setNotification(notification.wrongUsernameMessage());
+      view.showWrongUsernameNotification();
       view.clearPasswordField();
       return;
     }
 
     if (!matches(user.getPassword(),"^[a-zA-Z0-9]{6,20}$")) {
-      view.setNotification(notification.wrongPasswordMessage());
+      view.showWrongPasswordNotification();
       view.clearPasswordField();
       return;
     }
@@ -50,18 +48,18 @@ public class RegisterPresenter implements Presenter, RegisterView.Presenter {
       public void onFailure(Throwable caught) {
 
         if (caught instanceof WrongUsernameException) {
-          view.setNotification(notification.wrongUsernameMessage());
+          view.showWrongUsernameNotification();
           view.clearPasswordField();
         }
 
         if (caught instanceof WrongPasswordException) {
-          view.setNotification(notification.wrongPasswordMessage());
+          view.showWrongPasswordNotification();
           view.clearPasswordField();
         }
       }
 
       public void onSuccess(Void result) {
-        view.setNotification(notification.successfulRegistrationMessage());
+        view.showSuccessfulRegistrationNotification();
         view.clearUsernameField();
         view.clearPasswordField();
       }
