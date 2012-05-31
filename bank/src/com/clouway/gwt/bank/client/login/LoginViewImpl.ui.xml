@@ -1,10 +1,46 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <g:HTMLPanel>
-    <g:Label text="Username:" />
-    <g:TextBox ui:field="username" />
-    <g:Label text="Password:" />
-    <g:PasswordTextBox ui:field="password" />
-    <g:Button ui:field="login" text="Login" />
-  </g:HTMLPanel>
+  <ui:style>
+
+    .container {
+      width: 100%;
+    }
+
+    .loginForm {
+      width: 160px;
+      margin-top: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10 15 10 15;
+      background-color: #f5f5f5;
+    }
+
+    .notificationLabel {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .loginFormLabel {
+      width: 105px;
+      margin-bottom: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </ui:style>
+
+  <g:VerticalPanel addStyleNames="{style.container}">
+    <g:HTMLPanel addStyleNames="{style.loginForm}">
+      <g:Label text="Login Form" addStyleNames="{style.loginFormLabel}"/>
+      <g:Label text="Username:" />
+      <g:TextBox ui:field="username" />
+      <g:Label text="Password:" />
+      <g:PasswordTextBox ui:field="password" />
+      <g:Button ui:field="login" text="Login" />
+      <g:Button ui:field="goToRegister" text="Go to Register" />
+    </g:HTMLPanel>
+
+    <g:Label ui:field="notification" addStyleNames="{style.notificationLabel}" />
+  </g:VerticalPanel>
+
+
 </ui:UiBinder>
