@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -33,6 +34,9 @@ public class RegisterViewImpl extends Composite implements RegisterView {
 
   @UiField
   Label notification;
+
+  @UiField
+  Button goToLogin;
 
   public RegisterViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -63,6 +67,11 @@ public class RegisterViewImpl extends Composite implements RegisterView {
     if (presenter != null) {
         presenter.registerUser();
     }
+  }
+
+  @UiHandler("goToLogin")
+  void onGoToLoginButtonClicked(ClickEvent event) {
+    History.newItem("login");
   }
 
   public void clearUsernameField() {
