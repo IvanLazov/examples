@@ -1,11 +1,16 @@
 package com.clouway.gwt.bank.client;
 
+import com.clouway.gwt.bank.client.login.LoginEvent;
+import com.clouway.gwt.bank.client.login.LoginPresenter;
+import com.clouway.gwt.bank.client.login.LoginView;
+import com.clouway.gwt.bank.client.login.LoginViewImpl;
 import com.clouway.gwt.bank.client.presenter.Presenter;
 import com.clouway.gwt.bank.client.register.RegisterPresenter;
 import com.clouway.gwt.bank.client.register.RegisterView;
 import com.clouway.gwt.bank.client.register.RegisterViewImpl;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -17,9 +22,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final BankServiceAsync rpcService;
   private HasWidgets container;
   private RegisterView registerView;
+  private LoginView loginView;
+  private EventBus eventBus;
 
-  public AppController(BankServiceAsync rpcService) {
+  public AppController(BankServiceAsync rpcService, EventBus eventBus) {
     this.rpcService = rpcService;
+    this.eventBus = eventBus;
     bind();
   }
 
@@ -49,6 +57,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
           registerView = new RegisterViewImpl();
         }
         new RegisterPresenter(rpcService, registerView).go(container);
+      }
+
+      if (token.equals("login")) {
+
+        if (loginView == null) {
+          loginView = new LoginViewImpl();
+        }
+        new LoginPresenter(rpcService, loginView).go(container);
+      }
+
+      if (token.equals("userpage")) {
+        eventBus.fireEvent(new LoginEvent());
       }
     }
   }
