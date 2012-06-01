@@ -41,7 +41,7 @@ public class Account implements Serializable {
     return balance;
   }
 
-  public void withdraw(double amount) {
+  public void withdraw(double amount) throws InsufficientFundsException {
 
     if (amount > balance) {
       throw new InsufficientFundsException();
