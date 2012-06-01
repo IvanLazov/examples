@@ -1,0 +1,11 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <g:Label text="Balance:" />
+    <g:Label ui:field="balance" text="0.0" />
+    <g:TextBox ui:field="input" />
+    <g:Button ui:field="deposit" text="Deposit"/>
+    <g:Button ui:field="withdraw" text="Withdraw"/>
+    <g:Label ui:field="message" />
+  </g:HTMLPanel>
+</ui:UiBinder>
