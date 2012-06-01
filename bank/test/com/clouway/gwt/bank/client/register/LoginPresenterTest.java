@@ -21,9 +21,9 @@ public class LoginPresenterTest {
 
   private Mockery context = new JUnit4Mockery();
 
-  private BankServiceAsync fooRpcService = context.mock(BankServiceAsync.class);
-  private LoginView fooLoginView = context.mock(LoginView.class);
-  private LoginPresenter loginPresenter = new LoginPresenter(fooRpcService, fooLoginView);
+  private BankServiceAsync rpcService = context.mock(BankServiceAsync.class);
+  private LoginView loginView = context.mock(LoginView.class);
+  private LoginPresenter loginPresenter = new LoginPresenter(rpcService, loginView);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
   private InstanceMatcher<AsyncCallback<User>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<User>>();
@@ -32,10 +32,10 @@ public class LoginPresenterTest {
   public void happyPath() {
 
     context.checking(new Expectations(){{
-      oneOf(fooLoginView).getUser();
+      oneOf(loginView).getUser();
       will(returnValue(new User("Test", "password")));
 
-      oneOf(fooRpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
     }});
 
     loginPresenter.loginUser();
@@ -45,12 +45,12 @@ public class LoginPresenterTest {
   public void asyncCallbackOnFailure() {
 
     context.checking(new Expectations(){{
-      oneOf(fooLoginView).getUser();
+      oneOf(loginView).getUser();
       will(returnValue(new User("Test", "password")));
 
-      oneOf(fooRpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
 
-      oneOf(fooLoginView).showWrongUsernameOrPasswordNotification();
+      oneOf(loginView).showWrongUsernameOrPasswordNotification();
     }});
 
     loginPresenter.loginUser();
@@ -108,10 +108,10 @@ public class LoginPresenterTest {
 
   private void pretendThatEnteredUserIs(final User user) {
     context.checking(new Expectations(){{
-      oneOf(fooLoginView).getUser();
+      oneOf(loginView).getUser();
       will(returnValue(user));
 
-      oneOf(fooLoginView).showWrongUsernameOrPasswordNotification();
+      oneOf(loginView).showWrongUsernameOrPasswordNotification();
     }});
   }
 }
