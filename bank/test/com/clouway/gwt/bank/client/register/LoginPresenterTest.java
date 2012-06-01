@@ -60,53 +60,53 @@ public class LoginPresenterTest {
   @Test
   public void enteredWrongUsername() {
 
-    pretendThatEnteredUserIs(new User("Test!@#", "password"));
+    enteredWrongUsernameOrPassword(new User("Test!@#", "password"));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredUsernameLongerThanTwentyCharacters() {
 
-    pretendThatEnteredUserIs(new User("TestTestTestTestTestTest", "password"));
+    enteredWrongUsernameOrPassword(new User("TestTestTestTestTestTest", "password"));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredEmptyUsername() {
 
-    pretendThatEnteredUserIs(new User("", "password"));
+    enteredWrongUsernameOrPassword(new User("", "password"));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredPasswordShortThanSixCharacters() {
 
-    pretendThatEnteredUserIs(new User("Test", "pass"));
+    enteredWrongUsernameOrPassword(new User("Test", "pass"));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredPasswordLongerThanTwentyCharacters() {
 
-    pretendThatEnteredUserIs(new User("Test", "passwordpasswordpassword"));
+    enteredWrongUsernameOrPassword(new User("Test", "passwordpasswordpassword"));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredEmptyPassword() {
 
-    pretendThatEnteredUserIs(new User("Test", ""));
+    enteredWrongUsernameOrPassword(new User("Test", ""));
     loginPresenter.loginUser();
   }
 
   @Test
   public void enteredEmptyUsernameAndPassword() {
 
-    pretendThatEnteredUserIs(new User("", ""));
+    enteredWrongUsernameOrPassword(new User("", ""));
     loginPresenter.loginUser();
   }
 
-  private void pretendThatEnteredUserIs(final User user) {
+  private void enteredWrongUsernameOrPassword(final User user) {
     context.checking(new Expectations(){{
       oneOf(loginView).getUser();
       will(returnValue(user));
