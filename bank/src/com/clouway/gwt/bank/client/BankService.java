@@ -1,5 +1,6 @@
 package com.clouway.gwt.bank.client;
 
+import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
 import com.clouway.gwt.bank.client.exceptions.WrongPasswordException;
 import com.clouway.gwt.bank.client.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.client.exceptions.WrongUsernameOrPasswordException;
@@ -11,4 +12,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface BankService extends RemoteService {
   void registerUser(User user) throws WrongUsernameException, WrongPasswordException;
   User loginUser(User user) throws WrongUsernameOrPasswordException;
+
+  double deposit(double amount);
+  double withdraw(double amount) throws InsufficientFundsException;
 }
