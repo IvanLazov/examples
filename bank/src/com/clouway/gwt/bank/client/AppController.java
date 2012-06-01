@@ -1,5 +1,8 @@
 package com.clouway.gwt.bank.client;
 
+import com.clouway.gwt.bank.client.account.AccountPresenter;
+import com.clouway.gwt.bank.client.account.AccountView;
+import com.clouway.gwt.bank.client.account.AccountViewImpl;
 import com.clouway.gwt.bank.client.login.LoginEvent;
 import com.clouway.gwt.bank.client.login.LoginPresenter;
 import com.clouway.gwt.bank.client.login.LoginView;
@@ -24,6 +27,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private RegisterView registerView;
   private LoginView loginView;
   private EventBus eventBus;
+  private AccountView accountView;
 
   public AppController(BankServiceAsync rpcService, EventBus eventBus) {
     this.rpcService = rpcService;
@@ -68,7 +72,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
       }
 
       if (token.equals("userpage")) {
-        eventBus.fireEvent(new LoginEvent());
+        if (accountView == null) {
+          accountView = new AccountViewImpl();
+        }
+        new AccountPresenter(rpcService, accountView).go(container);
       }
     }
   }
