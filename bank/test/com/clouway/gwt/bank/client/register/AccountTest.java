@@ -50,25 +50,25 @@ public class AccountTest {
   }
 
   @Test
-  public void withdrawPositiveAmount() {
+  public void withdrawPositiveAmount() throws InsufficientFundsException {
     account.withdraw(100.0);
     assertEquals(400.0, account.getBalance());
   }
 
   @Test(expected = InsufficientFundsException.class)
-  public void cantWithdrawWhenBalanceIsInsufficient() {
+  public void cantWithdrawWhenBalanceIsInsufficient() throws InsufficientFundsException {
     account.withdraw(1000.0);
     assertEquals(balance, account.getBalance());
   }
 
   @Test(expected = WithdrawZeroAmountException.class)
-  public void withdrawZeroAmount() {
+  public void withdrawZeroAmount() throws InsufficientFundsException {
     account.withdraw(0);
     assertEquals(balance, account.getBalance());
   }
 
   @Test(expected = NegativeWithdrawAmountException.class)
-  public void withdrawNegativeAmount() {
+  public void withdrawNegativeAmount() throws InsufficientFundsException {
     account.withdraw(-100.0);
     assertEquals(balance, account.getBalance());
   }
