@@ -1,9 +1,8 @@
-package com.clouway.gwt.bank.client.register;
+package com.clouway.gwt.bank.client.account;
 
 import com.clouway.gwt.bank.client.BankServiceAsync;
-import com.clouway.gwt.bank.client.account.AccountPresenter;
-import com.clouway.gwt.bank.client.account.AccountView;
 import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
+import com.clouway.gwt.bank.InstanceMatcher;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
