@@ -1,6 +1,7 @@
 package com.clouway.gwt.bank.client.register;
 
-import com.clouway.gwt.bank.client.BankServiceAsync;
+import com.clouway.gwt.bank.InstanceMatcher;
+import com.clouway.gwt.bank.client.UserServiceAsync;
 import com.clouway.gwt.bank.client.exceptions.WrongPasswordException;
 import com.clouway.gwt.bank.client.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
@@ -22,7 +23,7 @@ public class RegisterPresenterTest {
   private Mockery context = new JUnit4Mockery();
 
   private RegisterPresenter registerPresenter;
-  private BankServiceAsync fooRpcService = context.mock(BankServiceAsync.class);
+  private UserServiceAsync fooRpcService = context.mock(UserServiceAsync.class);
   private RegisterView fooRegisterView = context.mock(RegisterView.class);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
