@@ -3,7 +3,6 @@ package com.clouway.gwt.bank.client;
 import com.clouway.gwt.bank.client.account.AccountPresenter;
 import com.clouway.gwt.bank.client.account.AccountView;
 import com.clouway.gwt.bank.client.account.AccountViewImpl;
-import com.clouway.gwt.bank.client.login.LoginEvent;
 import com.clouway.gwt.bank.client.login.LoginPresenter;
 import com.clouway.gwt.bank.client.login.LoginView;
 import com.clouway.gwt.bank.client.login.LoginViewImpl;
@@ -22,15 +21,17 @@ import com.google.gwt.user.client.ui.HasWidgets;
  */
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
-  private final BankServiceAsync rpcService;
+  private final UserServiceAsync userRpcService;
+  private final BankServiceAsync bankRpcService;
   private HasWidgets container;
   private RegisterView registerView;
   private LoginView loginView;
   private EventBus eventBus;
   private AccountView accountView;
 
-  public AppController(BankServiceAsync rpcService, EventBus eventBus) {
-    this.rpcService = rpcService;
+  public AppController(UserServiceAsync userRpcService, BankServiceAsync bankRpcService, EventBus eventBus) {
+    this.userRpcService = userRpcService;
+    this.bankRpcService = bankRpcService;
     this.eventBus = eventBus;
     bind();
   }
@@ -60,7 +61,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         if (registerView == null) {
           registerView = new RegisterViewImpl();
         }
-        new RegisterPresenter(rpcService, registerView).go(container);
+        new RegisterPresenter(userRpcService, registerView).go(container);
       }
 
       if (token.equals("login")) {
@@ -68,14 +69,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         if (loginView == null) {
           loginView = new LoginViewImpl();
         }
-        new LoginPresenter(rpcService, loginView).go(container);
+        new LoginPresenter(userRpcService, loginView).go(container);
       }
 
       if (token.equals("userpage")) {
         if (accountView == null) {
           accountView = new AccountViewImpl();
         }
-        new AccountPresenter(rpcService, accountView).go(container);
+        new AccountPresenter(bankRpcService, accountView).go(container);
       }
     }
   }
