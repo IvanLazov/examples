@@ -9,9 +9,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Bank implements EntryPoint {
 
   public void onModuleLoad() {
-    BankServiceAsync rpcService = GWT.create(BankService.class);
+    UserServiceAsync userRpcService = GWT.create(UserServiceAsync.class);
+    BankServiceAsync bankRpcService = GWT.create(BankServiceAsync.class);
     EventBus eventBus = new SimpleEventBus();
-    AppController controller = new AppController(rpcService, eventBus);
+    AppController controller = new AppController(userRpcService, bankRpcService, eventBus);
     controller.go(RootPanel.get());
   }
 }
