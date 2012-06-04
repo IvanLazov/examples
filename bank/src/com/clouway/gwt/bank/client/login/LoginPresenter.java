@@ -1,6 +1,6 @@
 package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.BankServiceAsync;
+import com.clouway.gwt.bank.client.UserServiceAsync;
 import com.clouway.gwt.bank.client.exceptions.WrongUsernameOrPasswordException;
 import com.clouway.gwt.bank.client.presenter.Presenter;
 import com.clouway.gwt.bank.shared.User;
@@ -15,10 +15,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LoginPresenter implements Presenter, LoginView.Presenter {
 
-  private final BankServiceAsync rpcService;
+  private final UserServiceAsync rpcService;
   private final LoginView view;
 
-  public LoginPresenter(BankServiceAsync rpcService, LoginView view) {
+  public LoginPresenter(UserServiceAsync rpcService, LoginView view) {
     this.rpcService = rpcService;
     this.view = view;
   }
