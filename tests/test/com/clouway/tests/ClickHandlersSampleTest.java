@@ -70,7 +70,7 @@ public class ClickHandlersSampleTest {
     view.saveButton.handler.onClick(new ClickEvent() { });
 
 
-    // THEN
+    //THEN
     assertThat(personService.savedPersons.size(), is(equalTo(1)));
 
 
