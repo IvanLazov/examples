@@ -26,7 +26,7 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
   }
 
   public void deposit() {
-    double amount = 0;
+    double amount;
 
     try {
       amount = Double.parseDouble(view.getEnteredAmount());
@@ -69,7 +69,7 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
 
   public void withdraw() {
 
-    double amount = 0;
+    double amount;
 
     try {
       amount = Double.parseDouble(view.getEnteredAmount());
@@ -100,7 +100,6 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
       }
 
       public void onSuccess(Double result) {
-        System.out.println(result);
         view.updateBalance(String.valueOf(result));
         view.clearInputField();
         view.successfulWithdraw();
