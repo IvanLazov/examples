@@ -13,4 +13,14 @@
     <servlet-name>Bank BankService</servlet-name>
     <url-pattern>/Bank/BankService</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UserService</servlet-name>
+    <servlet-class>com.clouway.gwt.bank.server.UserServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserService</servlet-name>
+    <url-pattern>/Bank/UserService</url-pattern>
+  </servlet-mapping>
+
 </web-app>
