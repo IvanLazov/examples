@@ -14,9 +14,17 @@ import java.io.Serializable;
  */
 public class Account implements Serializable {
 
+  private long accountId;
+  private long userId;
   private double balance;
 
   public Account(double amount) {
+    this.balance = amount;
+  }
+
+  public Account(long accountId, long userId, double amount) {
+    this.accountId = accountId;
+    this.userId = userId;
     this.balance = amount;
   }
 
@@ -41,7 +49,7 @@ public class Account implements Serializable {
     return balance;
   }
 
-  public void withdraw(double amount) throws InsufficientFundsException {
+  public void withdraw(double amount) {
 
     if (amount > balance) {
       throw new InsufficientFundsException();
