@@ -1,9 +1,8 @@
-package com.clouway.gwt.bank.client.register;
+package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.BankServiceAsync;
+import com.clouway.gwt.bank.client.UserServiceAsync;
 import com.clouway.gwt.bank.client.exceptions.WrongUsernameOrPasswordException;
-import com.clouway.gwt.bank.client.login.LoginPresenter;
-import com.clouway.gwt.bank.client.login.LoginView;
+import com.clouway.gwt.bank.InstanceMatcher;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
@@ -21,7 +20,7 @@ public class LoginPresenterTest {
 
   private Mockery context = new JUnit4Mockery();
 
-  private BankServiceAsync rpcService = context.mock(BankServiceAsync.class);
+  private UserServiceAsync rpcService = context.mock(UserServiceAsync.class);
   private LoginView loginView = context.mock(LoginView.class);
   private LoginPresenter loginPresenter = new LoginPresenter(rpcService, loginView);
 
