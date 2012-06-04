@@ -11,6 +11,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static junit.framework.Assert.assertEquals;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
@@ -34,6 +36,7 @@ public class BaseServiceImplTest {
       oneOf(accountRepository).updateAccount(user, 100);
     }});
 
-    bankService.deposit(100);
+    double result = bankService.deposit(100);
+    assertEquals(600.0, result);
   }
 }
