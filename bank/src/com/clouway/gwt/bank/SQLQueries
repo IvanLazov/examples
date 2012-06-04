@@ -1,0 +1,14 @@
+CREATE TABLE user (
+   userId BIGINT NOT NULL AUTO_INCREMENT,
+   username VARCHAR(20) NOT NULL UNIQUE,
+   password VARCHAR(20) NOT NULL,
+   PRIMARY KEY(userId)
+) ENGINE=InnoDB;
+
+CREATE TABLE account (
+   accountId BIGINT NOT NULL AUTO_INCREMENT,
+   userId BIGINT NOT NULL,
+   balance DOUBLE NOT NULL,
+   PRIMARY KEY (accountId),
+   FOREIGN KEY (userId) REFERENCES user(userId)
+)ENGINE=InnoDB;
