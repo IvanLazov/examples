@@ -1,6 +1,5 @@
-package com.clouway.gwt.bank.client.register;
+package com.clouway.gwt.bank.client.account;
 
-import com.clouway.gwt.bank.client.account.Account;
 import com.clouway.gwt.bank.client.exceptions.DepositZeroAmountException;
 import com.clouway.gwt.bank.client.exceptions.ExcessDepositAmountException;
 import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
@@ -22,7 +21,7 @@ public class AccountTest {
 
   @Before
   public void setUp() {
-    account = new Account(balance);
+    account = new Account(500.0);
   }
 
   @Test
@@ -50,25 +49,25 @@ public class AccountTest {
   }
 
   @Test
-  public void withdrawPositiveAmount() throws InsufficientFundsException {
+  public void withdrawPositiveAmount() {
     account.withdraw(100.0);
     assertEquals(400.0, account.getBalance());
   }
 
   @Test(expected = InsufficientFundsException.class)
-  public void cantWithdrawWhenBalanceIsInsufficient() throws InsufficientFundsException {
+  public void cantWithdrawWhenBalanceIsInsufficient() {
     account.withdraw(1000.0);
     assertEquals(balance, account.getBalance());
   }
 
   @Test(expected = WithdrawZeroAmountException.class)
-  public void withdrawZeroAmount() throws InsufficientFundsException {
+  public void withdrawZeroAmount() {
     account.withdraw(0);
     assertEquals(balance, account.getBalance());
   }
 
   @Test(expected = NegativeWithdrawAmountException.class)
-  public void withdrawNegativeAmount() throws InsufficientFundsException {
+  public void withdrawNegativeAmount()  {
     account.withdraw(-100.0);
     assertEquals(balance, account.getBalance());
   }
