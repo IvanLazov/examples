@@ -49,6 +49,10 @@ public class Account implements Serializable {
     return balance;
   }
 
+  public long getAccountId() {
+    return accountId;
+  }
+
   public void withdraw(double amount) {
 
     if (amount > balance) {
@@ -63,5 +67,19 @@ public class Account implements Serializable {
       throw new NegativeWithdrawAmountException();
     }
     this.balance -= amount;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Account account = (Account) o;
+
+    if (accountId != account.accountId) return false;
+    if (Double.compare(account.balance, balance) != 0) return false;
+    if (userId != account.userId) return false;
+
+    return true;
   }
 }
