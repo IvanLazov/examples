@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+<web-app>
 
   <servlet>
-    <servlet-name>Bank BankService</servlet-name>
-    <servlet-class>com.clouway.gwt.bank.server.BankServiceImpl</servlet-class>
+    <servlet-name>xsrf</servlet-name>
+    <servlet-class>
+      com.clouway.gwt.bank.server.authorization.TokenGeneratorImpl
+    </servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Bank BankService</servlet-name>
-    <url-pattern>/Bank/BankService</url-pattern>
+    <servlet-name>xsrf</servlet-name>
+    <url-pattern>/Bank/xsrf</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>UserService</servlet-name>
-    <servlet-class>com.clouway.gwt.bank.server.UserServiceImpl</servlet-class>
+    <servlet-name>mainPage</servlet-name>
+    <servlet-class>
+      com.clouway.gwt.bank.server.MainPageServlet
+    </servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UserService</servlet-name>
-    <url-pattern>/Bank/UserService</url-pattern>
+    <servlet-name>mainPage</servlet-name>
+    <url-pattern>/Bank.html</url-pattern>
   </servlet-mapping>
 
+  <context-param>
+    <param-name>gwt.xsrf.session_cookie_name</param-name>
+    <param-value>JSESSIONID</param-value>
+  </context-param>
 </web-app>
