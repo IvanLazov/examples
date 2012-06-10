@@ -1,8 +1,10 @@
 package com.clouway.gwt.bank.client.account;
 
-import com.clouway.gwt.bank.client.BankServiceAsync;
-import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
+import com.clouway.gwt.bank.client.AccountServiceAsync;
+import com.clouway.gwt.bank.shared.exceptions.ExceededDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InsufficientFundsException;
 import com.clouway.gwt.bank.client.presenter.Presenter;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -12,10 +14,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AccountPresenter implements Presenter, AccountView.Presenter {
 
-  private final BankServiceAsync rpcService;
+  private final AccountServiceAsync rpcService;
   private final AccountView view;
 
-  public AccountPresenter(BankServiceAsync rpcService, AccountView view) {
+  public AccountPresenter(AccountServiceAsync rpcService, AccountView view) {
     this.rpcService = rpcService;
     this.view = view;
   }
@@ -31,25 +33,25 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
     try {
       amount = Double.parseDouble(view.getEnteredAmount());
     } catch (NumberFormatException exception) {
-      view.invalidInput();
+      view.incorrectInputNotification();
       view.clearInputField();
       return;
     }
 
     if (amount == 0) {
-      view.zeroAmountDeposit();
+      view.zeroDepositNotification();
       view.clearInputField();
       return;
     }
 
     if (amount > 10000) {
-      view.exceededDeposit();
+      view.exceededDepositNotification();
       view.clearInputField();
       return;
     }
 
     if (amount < 0) {
-      view.negativeDeposit();
+      view.negativeDepositNotification();
       view.clearInputField();
       return;
     }
@@ -60,9 +62,9 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
       }
 
       public void onSuccess(Double result) {
-        view.updateBalance(String.valueOf(result));
+        view.updatedBalanceNotification(String.valueOf(result));
         view.clearInputField();
-        view.successfulDeposit();
+        view.successfulDepositNotification();
       }
     });
   }
@@ -75,19 +77,19 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
       amount = Double.parseDouble(view.getEnteredAmount());
     } catch (NumberFormatException exception) {
       view.clearInputField();
-      view.invalidInput();
+      view.incorrectInputNotification();
       return;
     }
 
     if (amount == 0) {
       view.clearInputField();
-      view.zeroAmountWithdraw();
+      view.zeroWithdrawNotification();
       return;
     }
 
     if (amount < 0) {
       view.clearInputField();
-      view.negativeWithdraw();
+      view.negativeWithdrawNotification();
       return;
     }
 
@@ -95,14 +97,31 @@ public class AccountPresenter implements Presenter, AccountView.Presenter {
       public void onFailure(Throwable caught) {
         if (caught instanceof InsufficientFundsException) {
           view.clearInputField();
-          view.insufficientFunds();
+          view.insufficientFundsNotification();
+        }
+
+        if (caught instanceof ExceededDepositException) {
+          view.clearInputField();
+          view.exceededDepositNotification();
         }
       }
 
       public void onSuccess(Double result) {
-        view.updateBalance(String.valueOf(result));
+        view.updatedBalanceNotification(String.valueOf(result));
         view.clearInputField();
-        view.successfulWithdraw();
+        view.successfulWithdrawNotification();
+      }
+    });
+  }
+
+  public void logoutUser() {
+    rpcService.logoutUser(new AsyncCallback<Void>() {
+      public void onFailure(Throwable caught) {
+
+      }
+
+      public void onSuccess(Void result) {
+        History.newItem("login");
       }
     });
   }
