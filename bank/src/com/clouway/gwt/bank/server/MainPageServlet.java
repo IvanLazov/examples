@@ -1,5 +1,7 @@
 package com.clouway.gwt.bank.server;
 
+import com.google.inject.Singleton;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +12,14 @@ import java.io.PrintWriter;
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
+@Singleton
 public class MainPageServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    req.getSession().getId();
+
     PrintWriter writer = resp.getWriter();
     resp.setContentType("text/html");
     writer.println(
