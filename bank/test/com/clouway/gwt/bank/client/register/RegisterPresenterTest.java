@@ -1,9 +1,10 @@
 package com.clouway.gwt.bank.client.register;
 
-import com.clouway.gwt.bank.InstanceMatcher;
-import com.clouway.gwt.bank.client.UserServiceAsync;
-import com.clouway.gwt.bank.client.exceptions.WrongPasswordException;
-import com.clouway.gwt.bank.client.exceptions.WrongUsernameException;
+import com.clouway.gwt.bank.server.InstanceMatcher;
+import com.clouway.gwt.bank.client.RegisterServiceAsync;
+import com.clouway.gwt.bank.shared.exceptions.UsernameAlreadyTakenException;
+import com.clouway.gwt.bank.shared.exceptions.WrongPasswordException;
+import com.clouway.gwt.bank.shared.exceptions.WrongUsernameException;
 import com.clouway.gwt.bank.shared.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
@@ -22,124 +23,156 @@ public class RegisterPresenterTest {
 
   private Mockery context = new JUnit4Mockery();
 
-  private RegisterPresenter registerPresenter;
-  private UserServiceAsync fooRpcService = context.mock(UserServiceAsync.class);
-  private RegisterView fooRegisterView = context.mock(RegisterView.class);
+  private RegisterPresenter presenter;
+  private User user = new User("Test", "password");
+
+  private RegisterServiceAsync rpcService = context.mock(RegisterServiceAsync.class);
+  private RegisterView view = context.mock(RegisterView.class);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
-  private InstanceMatcher<AsyncCallback<Void>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
-
-  private final User user = new User("Test", "password");
+  private InstanceMatcher<AsyncCallback<Void>> callbackInstanceMatcher = new InstanceMatcher<AsyncCallback<Void>>();
 
   @Before
   public void setUp() {
-    registerPresenter = new RegisterPresenter(fooRpcService, fooRegisterView);
+    presenter = new RegisterPresenter(rpcService, view);
   }
 
   @Test
   public void happyPath() {
 
-    context.checking(new Expectations() {{
-      oneOf(fooRegisterView).getUser();
-      will(returnValue(user));
+    context.checking(new Expectations(){{
+      oneOf(view).getUser();
+      will(returnValue(new User("Test", "password")));
 
-      oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+      oneOf(rpcService).registerUser(with(userInstanceMatcher), with(callbackInstanceMatcher));
 
-      oneOf(fooRegisterView).showSuccessfulRegistrationNotification();
-      oneOf(fooRegisterView).clearUsernameField();
-      oneOf(fooRegisterView).clearPasswordField();
+      oneOf(view).registrationSuccessfulNotification();
+      oneOf(view).clearUsernameField();
+      oneOf(view).clearPasswordField();
     }});
 
-    registerPresenter.registerUser();
-    asyncCallbackInstanceMatcher.getInstance().onSuccess(null);
+    presenter.registerUser();
+    callbackInstanceMatcher.getInstance().onSuccess(null);
   }
 
   @Test
-  public void userCannotRegisterWithEmptyUsername() {
+  public void userCantRegisterWithEmptyUsername() {
 
     pretendThatEnteredUsernameIs("");
-    registerPresenter.registerUser();
+    presenter.registerUser();
   }
 
   @Test
-  public void userCannotRegisterWithUsernameLongerThanTwentyCharacters() {
+  public void userCantRegisterWithEmptyPassword() {
 
-    pretendThatEnteredUsernameIs("UserCannotRegisterWithTooLongUsername");
-    registerPresenter.registerUser();
+    pretendThatEnteredPasswordIs("");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void userCantRegisterWithUsernameLongerThanTwentyCharacters() {
+
+    pretendThatEnteredUsernameIs("TestTestTestTestTestTest");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void userCantRegisterWithPasswordLessThanSixCharacters() {
+
+    pretendThatEnteredPasswordIs("pass");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void userCantRegisterWithPasswordLongerThanTwentyCharacters() {
+
+    pretendThatEnteredPasswordIs("passwordpasswordpassword");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void userCantRegisterWithUsernameContainingSpecialCharacters() {
+
+    pretendThatEnteredUsernameIs("Test!@#$");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void userCantRegisterWithPasswordContainingSpecialCharacters() {
+
+    pretendThatEnteredPasswordIs("pass!@#$");
+    presenter.registerUser();
+  }
+
+  @Test
+  public void usernameAlreadyTaken() {
+
+    context.checking(new Expectations(){{
+      oneOf(view).getUser();
+      will(returnValue(user));
+
+      oneOf(rpcService).registerUser(with(user), with(callbackInstanceMatcher));
+
+      oneOf(view).usernameAlreadyTakenNotification();
+      oneOf(view).clearUsernameField();
+      oneOf(view).clearPasswordField();
+    }});
+
+    presenter.registerUser();
+    callbackInstanceMatcher.getInstance().onFailure(new UsernameAlreadyTakenException());
+  }
+
+  @Test
+  public void exceptionIsThrownForWrongUsername() {
+
+    context.checking(new Expectations(){{
+      oneOf(view).getUser();
+      will(returnValue(user));
+
+      oneOf(rpcService).registerUser(with(userInstanceMatcher), with(callbackInstanceMatcher));
+
+      oneOf(view).wrongUsernameNotification();
+      oneOf(view).clearPasswordField();
+    }});
+
+    presenter.registerUser();
+    callbackInstanceMatcher.getInstance().onFailure(new WrongUsernameException());
+  }
+
+  @Test
+  public void exceptionIsThrownForWrongPassword() {
+
+    context.checking(new Expectations(){{
+      oneOf(view).getUser();
+      will(returnValue(user));
+
+      oneOf(rpcService).registerUser(with(userInstanceMatcher), with(callbackInstanceMatcher));
+
+      oneOf(view).wrongPasswordNotification();
+      oneOf(view).clearPasswordField();
+    }});
+
+    presenter.registerUser();
+    callbackInstanceMatcher.getInstance().onFailure(new WrongPasswordException());
   }
 
   private void pretendThatEnteredUsernameIs(final String username) {
     context.checking(new Expectations(){{
-      oneOf(fooRegisterView).getUser();
-      will(returnValue(new User(username,  "password")));
+      oneOf(view).getUser();
+      will(returnValue(new User(username, "password")));
 
-      oneOf(fooRegisterView).showWrongUsernameNotification();
-      oneOf(fooRegisterView).clearPasswordField();
+      oneOf(view).wrongUsernameNotification();
+      oneOf(view).clearPasswordField();
     }});
-  }
-
-  @Test
-  public void userCannotRegisterWithEmptyPassword() {
-
-    pretendThatEnteredPasswordIs("");
-    registerPresenter.registerUser();
-  }
-
-  @Test
-  public void userCannotRegisterWithPasswordLessThanSixCharacters() {
-
-    pretendThatEnteredPasswordIs("pass");
-    registerPresenter.registerUser();
-  }
-
-  @Test
-  public void userCannotRegisterWithPasswordLongerThanTwentyCharacters() {
-
-    pretendThatEnteredPasswordIs("passwordPasswordPassword");
-    registerPresenter.registerUser();
   }
 
   private void pretendThatEnteredPasswordIs(final String password) {
     context.checking(new Expectations(){{
-      oneOf(fooRegisterView).getUser();
+      oneOf(view).getUser();
       will(returnValue(new User("Test", password)));
 
-      oneOf(fooRegisterView).showWrongPasswordNotification();
-      oneOf(fooRegisterView).clearPasswordField();
+      oneOf(view).wrongPasswordNotification();
+      oneOf(view).clearPasswordField();
     }});
-  }
-
-  @Test
-  public void wrongUsernameExceptionIsCaught() {
-
-    context.checking(new Expectations(){{
-      oneOf(fooRegisterView).getUser();
-      will(returnValue(user));
-
-      oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
-
-      oneOf(fooRegisterView).showWrongUsernameNotification();
-      oneOf(fooRegisterView).clearPasswordField();
-    }});
-
-    registerPresenter.registerUser();
-    asyncCallbackInstanceMatcher.getInstance().onFailure(new WrongUsernameException());
-  }
-
-  @Test
-  public void wrongPasswordExceptionIsCaught() {
-
-    context.checking(new Expectations(){{
-      oneOf(fooRegisterView).getUser();
-      will(returnValue(user));
-
-      oneOf(fooRpcService).registerUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
-
-      oneOf(fooRegisterView).showWrongPasswordNotification();
-      oneOf(fooRegisterView).clearPasswordField();
-    }});
-
-    registerPresenter.registerUser();
-    asyncCallbackInstanceMatcher.getInstance().onFailure(new WrongPasswordException());
   }
 }
