@@ -15,7 +15,8 @@ public interface RegisterView {
   void clearPasswordField();
   void clearUsernameField();
   void setPresenter(Presenter presenter);
-  void showWrongUsernameNotification();
-  void showWrongPasswordNotification();
-  void showSuccessfulRegistrationNotification();
+  void wrongUsernameNotification();
+  void wrongPasswordNotification();
+  void registrationSuccessfulNotification();
+  void usernameAlreadyTakenNotification();
 }
