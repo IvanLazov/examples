@@ -1,6 +1,6 @@
-package com.clouway.gwt.bank.server;
+package com.clouway.gwt.bank.server.account;
 
-import com.clouway.gwt.bank.client.account.Account;
+import com.clouway.gwt.bank.server.ResultSetBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
-public class AccountResultSetMapper implements ResultSetMapper<Account> {
-  public Account map(ResultSet resultSet) {
+public class AccountResultSetBuilder implements ResultSetBuilder<Account> {
+  public Account build(ResultSet resultSet) {
     Account account = null;
 
     try {
