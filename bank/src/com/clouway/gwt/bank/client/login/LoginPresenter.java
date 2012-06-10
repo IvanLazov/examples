@@ -1,51 +1,63 @@
 package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.UserServiceAsync;
-import com.clouway.gwt.bank.client.exceptions.WrongUsernameOrPasswordException;
+import com.clouway.gwt.bank.client.AccountServiceAsync;
+import com.clouway.gwt.bank.client.LoginServiceAsync;
+import com.clouway.gwt.bank.client.account.AccountPresenter;
+import com.clouway.gwt.bank.client.account.AccountViewImpl;
 import com.clouway.gwt.bank.client.presenter.Presenter;
+import com.clouway.gwt.bank.shared.AuthorizedUser;
 import com.clouway.gwt.bank.shared.User;
+import com.clouway.gwt.bank.shared.exceptions.WrongUsernameOrPasswordException;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.Map;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
 public class LoginPresenter implements Presenter, LoginView.Presenter {
 
-  private final UserServiceAsync rpcService;
-  private final LoginView view;
+  private final Map<String, Presenter> userPages;
+  private final AccountServiceAsync accountRpcService;
+  private final LoginServiceAsync loginRpcService;
+  private final LoginView loginView;
 
-  public LoginPresenter(UserServiceAsync rpcService, LoginView view) {
-    this.rpcService = rpcService;
-    this.view = view;
+  public LoginPresenter(Map<String, Presenter> userPages, AccountServiceAsync accountRpcService, LoginServiceAsync loginRpcService, LoginView loginView) {
+    this.userPages = userPages;
+    this.accountRpcService = accountRpcService;
+    this.loginRpcService = loginRpcService;
+    this.loginView = loginView;
   }
 
   public void go(HasWidgets container) {
-    container.add((Widget) view);
-    this.view.setPresenter(this);
+    container.add((Widget) loginView);
+    this.loginView.setPresenter(this);
   }
 
   public void loginUser() {
 
-    User user = view.getUser();
+    User user = loginView.getUser();
 
-    if (!matches(user.getUsername(),"^[a-zA-Z0-9]{1,20}$") || !matches(user.getPassword(), "^[a-zA-Z0-9]{6,20}$")) {
-      view.showWrongUsernameOrPasswordNotification();
+    if (!matches(user.getUsername(), "^[a-zA-Z0-9]{1,20}$") || !matches(user.getPassword(), "^[a-zA-Z0-9]{6,20}$")) {
+      loginView.wrongUsernameOrPasswordNotification();
       return;
     }
 
-    rpcService.loginUser(user, new AsyncCallback<User>() {
+    loginRpcService.loginUser(user, new AsyncCallback<AuthorizedUser>() {
+
       public void onFailure(Throwable caught) {
         if (caught instanceof WrongUsernameOrPasswordException) {
-          view.showWrongUsernameOrPasswordNotification();
+          loginView.wrongUsernameOrPasswordNotification();
         }
       }
 
-      public void onSuccess(User result) {
-        History.newItem("userpage");
+      public void onSuccess(AuthorizedUser result) {
+        userPages.put("account", new AccountPresenter(accountRpcService, new AccountViewImpl()));
+        History.newItem("account");
       }
     });
   }
