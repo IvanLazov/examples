@@ -1,4 +1,4 @@
-package com.clouway.gwt.bank;
+package com.clouway.gwt.bank.server;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
