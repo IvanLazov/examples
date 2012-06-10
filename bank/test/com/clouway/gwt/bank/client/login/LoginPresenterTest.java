@@ -1,9 +1,12 @@
 package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.UserServiceAsync;
-import com.clouway.gwt.bank.client.exceptions.WrongUsernameOrPasswordException;
-import com.clouway.gwt.bank.InstanceMatcher;
+import com.clouway.gwt.bank.client.AccountServiceAsync;
+import com.clouway.gwt.bank.client.LoginServiceAsync;
+import com.clouway.gwt.bank.client.presenter.Presenter;
+import com.clouway.gwt.bank.shared.AuthorizedUser;
+import com.clouway.gwt.bank.server.InstanceMatcher;
 import com.clouway.gwt.bank.shared.User;
+import com.clouway.gwt.bank.shared.exceptions.WrongUsernameOrPasswordException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -11,6 +14,9 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -20,12 +26,15 @@ public class LoginPresenterTest {
 
   private Mockery context = new JUnit4Mockery();
 
-  private UserServiceAsync rpcService = context.mock(UserServiceAsync.class);
+  private LoginServiceAsync rpcService = context.mock(LoginServiceAsync.class);
+  private AccountServiceAsync accountRpcService = context.mock(AccountServiceAsync.class);
   private LoginView loginView = context.mock(LoginView.class);
-  private LoginPresenter loginPresenter = new LoginPresenter(rpcService, loginView);
+  private Map<String, Presenter> userPages = new HashMap<String, Presenter>();
+
+  private LoginPresenter loginPresenter = new LoginPresenter(userPages, accountRpcService, rpcService, loginView);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
-  private InstanceMatcher<AsyncCallback<User>> asyncCallbackInstanceMatcher = new InstanceMatcher<AsyncCallback<User>>();
+  private InstanceMatcher<AsyncCallback<AuthorizedUser>> callbackInstanceMatcher = new InstanceMatcher<AsyncCallback<AuthorizedUser>>();
 
   @Test
   public void happyPath() {
@@ -34,83 +43,118 @@ public class LoginPresenterTest {
       oneOf(loginView).getUser();
       will(returnValue(new User("Test", "password")));
 
-      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
+      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(callbackInstanceMatcher));
     }});
 
     loginPresenter.loginUser();
   }
 
   @Test
-  public void asyncCallbackOnFailure() {
+  public void userCantLoginWithEmptyUsername() {
 
     context.checking(new Expectations(){{
       oneOf(loginView).getUser();
-      will(returnValue(new User("Test", "password")));
+      will(returnValue(new User("", "password")));
 
-      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(asyncCallbackInstanceMatcher));
-
-      oneOf(loginView).showWrongUsernameOrPasswordNotification();
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
     }});
 
     loginPresenter.loginUser();
-    asyncCallbackInstanceMatcher.getInstance().onFailure(new WrongUsernameOrPasswordException());
   }
 
   @Test
-  public void enteredWrongUsername() {
+  public void userCantLoginWithUsernameLongerThanTwentyCharacters() {
 
-    enteredWrongUsernameOrPassword(new User("Test!@#", "password"));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("TestTestTestTestTestTest", "password")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredUsernameLongerThanTwentyCharacters() {
+  public void userCantLoginWithUsernameContainingSpecialCharacters() {
 
-    enteredWrongUsernameOrPassword(new User("TestTestTestTestTestTest", "password"));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("Test!@#$", "password")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredEmptyUsername() {
+  public void userCantLoginWithPasswordLessThanSixCharacters() {
 
-    enteredWrongUsernameOrPassword(new User("", "password"));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("Test", "pass")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredPasswordShortThanSixCharacters() {
+  public void userCantLoginWithPasswordLongerThanTwentyCharacters() {
 
-    enteredWrongUsernameOrPassword(new User("Test", "pass"));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("Test", "passwordpasswordpassword")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredPasswordLongerThanTwentyCharacters() {
+  public void userCantLoginWithEmptyPassword() {
 
-    enteredWrongUsernameOrPassword(new User("Test", "passwordpasswordpassword"));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("Test", "")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredEmptyPassword() {
+  public void userCantLoginWithEmptyUsernameAndPassword() {
 
-    enteredWrongUsernameOrPassword(new User("Test", ""));
+    context.checking(new Expectations(){{
+      oneOf(loginView).getUser();
+      will(returnValue(new User("", "")));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
+    }});
+
     loginPresenter.loginUser();
   }
 
   @Test
-  public void enteredEmptyUsernameAndPassword() {
+  public void exceptionIsThrownForWrongUsernameOrPassword() {
 
-    enteredWrongUsernameOrPassword(new User("", ""));
-    loginPresenter.loginUser();
-  }
+    final User user = new User("Test", "password");
 
-  private void enteredWrongUsernameOrPassword(final User user) {
     context.checking(new Expectations(){{
       oneOf(loginView).getUser();
       will(returnValue(user));
 
-      oneOf(loginView).showWrongUsernameOrPasswordNotification();
+      oneOf(rpcService).loginUser(with(userInstanceMatcher), with(callbackInstanceMatcher));
+
+      oneOf(loginView).wrongUsernameOrPasswordNotification();
     }});
+
+    loginPresenter.loginUser();
+    callbackInstanceMatcher.getInstance().onFailure(new WrongUsernameOrPasswordException());
   }
 }
