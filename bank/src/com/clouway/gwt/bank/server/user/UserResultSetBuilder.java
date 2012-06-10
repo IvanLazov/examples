@@ -1,5 +1,6 @@
-package com.clouway.gwt.bank.server;
+package com.clouway.gwt.bank.server.user;
 
+import com.clouway.gwt.bank.server.ResultSetBuilder;
 import com.clouway.gwt.bank.shared.User;
 
 import java.sql.ResultSet;
@@ -8,8 +9,8 @@ import java.sql.SQLException;
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
-public class UserResultSetMapper implements ResultSetMapper<User> {
-  public User map(ResultSet resultSet) {
+public class UserResultSetBuilder implements ResultSetBuilder<User> {
+  public User build(ResultSet resultSet) {
     User user = null;
 
     try {
