@@ -1,11 +1,9 @@
-package com.clouway.gwt.bank.client.account;
+package com.clouway.gwt.bank.server.account;
 
-import com.clouway.gwt.bank.client.exceptions.DepositZeroAmountException;
-import com.clouway.gwt.bank.client.exceptions.ExcessDepositAmountException;
-import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
-import com.clouway.gwt.bank.client.exceptions.NegativeDepositAmountException;
-import com.clouway.gwt.bank.client.exceptions.NegativeWithdrawAmountException;
-import com.clouway.gwt.bank.client.exceptions.WithdrawZeroAmountException;
+import com.clouway.gwt.bank.shared.exceptions.ExceededDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InsufficientFundsException;
+import com.clouway.gwt.bank.shared.exceptions.InvalidDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InvalidWithdrawException;
 
 import java.io.Serializable;
 
@@ -31,15 +29,11 @@ public class Account implements Serializable {
   public void deposit(double amount) {
 
     if (amount > 10000.0) {
-      throw new ExcessDepositAmountException();
+      throw new ExceededDepositException();
     }
 
-    if (amount < 0) {
-      throw new NegativeDepositAmountException();
-    }
-
-    if (amount == 0) {
-      throw new DepositZeroAmountException();
+    if (amount <= 0) {
+      throw new InvalidDepositException();
     }
 
     this.balance += amount;
@@ -49,8 +43,8 @@ public class Account implements Serializable {
     return balance;
   }
 
-  public long getAccountId() {
-    return accountId;
+  public long getUserId() {
+    return userId;
   }
 
   public void withdraw(double amount) {
@@ -59,13 +53,10 @@ public class Account implements Serializable {
       throw new InsufficientFundsException();
     }
 
-    if (amount == 0) {
-      throw new WithdrawZeroAmountException();
+    if (amount <= 0) {
+      throw new InvalidWithdrawException();
     }
 
-    if (amount < 0) {
-      throw new NegativeWithdrawAmountException();
-    }
     this.balance -= amount;
   }
 
