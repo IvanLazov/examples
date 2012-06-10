@@ -35,11 +35,14 @@ public class AccountViewImpl extends Composite implements AccountView {
   @UiField
   Button withdraw;
 
+  @UiField
+  Button logout;
+
   public AccountViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void updateBalance(String amount) {
+  public void updatedBalanceNotification(String amount) {
     this.balance.setText(amount);
   }
 
@@ -47,39 +50,39 @@ public class AccountViewImpl extends Composite implements AccountView {
     input.setText("");
   }
 
-  public void successfulDeposit() {
+  public void successfulDepositNotification() {
     message.setText("Deposit was successful!");
   }
 
-  public void zeroAmountDeposit() {
+  public void zeroDepositNotification() {
     message.setText("Zero amount cannot be deposited!");
   }
 
-  public void exceededDeposit() {
+  public void exceededDepositNotification() {
     message.setText("You cannot deposit amount bigger than 10,000");
   }
 
-  public void invalidInput() {
+  public void incorrectInputNotification() {
     message.setText("You have entered invalid amount!");
   }
 
-  public void successfulWithdraw() {
+  public void successfulWithdrawNotification() {
     message.setText("Withdraw was successful!");
   }
 
-  public void zeroAmountWithdraw() {
+  public void zeroWithdrawNotification() {
     message.setText("Zero amount cannot be withdraw!");
   }
 
-  public void insufficientFunds() {
+  public void insufficientFundsNotification() {
     message.setText("Cannot withdraw! Insufficient funds!");
   }
 
-  public void negativeWithdraw() {
+  public void negativeWithdrawNotification() {
     message.setText("Negative amount not allowed to withdraw!");
   }
 
-  public void negativeDeposit() {
+  public void negativeDepositNotification() {
     message.setText("Negative amount not allowed to deposit!");
   }
 
@@ -102,6 +105,13 @@ public class AccountViewImpl extends Composite implements AccountView {
   public void onDepositButtonClicked(ClickEvent event) {
     if (presenter != null) {
       presenter.deposit();
+    }
+  }
+
+  @UiHandler("logout")
+  public void onLogoutButtonClicked(ClickEvent event) {
+    if (presenter != null) {
+      presenter.logoutUser();
     }
   }
 }
