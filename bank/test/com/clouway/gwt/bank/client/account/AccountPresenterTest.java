@@ -1,8 +1,9 @@
 package com.clouway.gwt.bank.client.account;
 
-import com.clouway.gwt.bank.client.BankServiceAsync;
-import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
-import com.clouway.gwt.bank.InstanceMatcher;
+import com.clouway.gwt.bank.client.AccountServiceAsync;
+import com.clouway.gwt.bank.shared.exceptions.ExceededDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InsufficientFundsException;
+import com.clouway.gwt.bank.server.InstanceMatcher;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -20,7 +21,7 @@ public class AccountPresenterTest {
 
   Mockery context = new JUnit4Mockery();
   AccountView accountView = context.mock(AccountView.class);
-  BankServiceAsync rpcService = context.mock(BankServiceAsync.class);
+  AccountServiceAsync rpcService = context.mock(AccountServiceAsync.class);
 
   AccountPresenter accountPresenter;
 
@@ -43,11 +44,11 @@ public class AccountPresenterTest {
 
       oneOf(rpcService).deposit(with(amountInstanceMatcher), with(callbackInstanceMatcher));
 
-      oneOf(accountView).updateBalance(String.valueOf(returnedAmount));
+      oneOf(accountView).updatedBalanceNotification(String.valueOf(returnedAmount));
 
       oneOf(accountView).clearInputField();
 
-      oneOf(accountView).successfulDeposit();
+      oneOf(accountView).successfulDepositNotification();
     }});
 
     accountPresenter.deposit();
@@ -61,7 +62,7 @@ public class AccountPresenterTest {
       oneOf(accountView).getEnteredAmount();
       will(returnValue("0.0"));
 
-      oneOf(accountView).zeroAmountDeposit();
+      oneOf(accountView).zeroDepositNotification();
 
       oneOf(accountView).clearInputField();
     }});
@@ -76,7 +77,7 @@ public class AccountPresenterTest {
       oneOf(accountView).getEnteredAmount();
       will(returnValue("11000.0"));
 
-      oneOf(accountView).exceededDeposit();
+      oneOf(accountView).exceededDepositNotification();
 
       oneOf(accountView).clearInputField();
     }});
@@ -91,7 +92,7 @@ public class AccountPresenterTest {
       oneOf(accountView).getEnteredAmount();
       will(returnValue("ABC"));
 
-      oneOf(accountView).invalidInput();
+      oneOf(accountView).incorrectInputNotification();
 
       oneOf(accountView).clearInputField();
     }});
@@ -106,7 +107,7 @@ public class AccountPresenterTest {
       oneOf(accountView).getEnteredAmount();
       will(returnValue(""));
 
-      oneOf(accountView).invalidInput();
+      oneOf(accountView).incorrectInputNotification();
       oneOf(accountView).clearInputField();
     }});
 
@@ -120,7 +121,7 @@ public class AccountPresenterTest {
       oneOf(accountView).getEnteredAmount();
       will(returnValue("-100.0"));
 
-      oneOf(accountView).negativeDeposit();
+      oneOf(accountView).negativeDepositNotification();
 
       oneOf(accountView).clearInputField();
     }});
@@ -139,8 +140,8 @@ public class AccountPresenterTest {
 
       oneOf(rpcService).withdraw(with(amountInstanceMatcher), with(callbackInstanceMatcher));
 
-      oneOf(accountView).updateBalance(String.valueOf(returnedAmount));
-      oneOf(accountView).successfulWithdraw();
+      oneOf(accountView).updatedBalanceNotification(String.valueOf(returnedAmount));
+      oneOf(accountView).successfulWithdrawNotification();
       oneOf(accountView).clearInputField();
     }});
 
@@ -156,7 +157,35 @@ public class AccountPresenterTest {
       will(returnValue("0.0"));
 
       oneOf(accountView).clearInputField();
-      oneOf(accountView).zeroAmountWithdraw();
+      oneOf(accountView).zeroWithdrawNotification();
+    }});
+
+    accountPresenter.withdraw();
+  }
+
+  @Test
+  public void withdrawNotExecutedWhenEnteredEmptyAmount() {
+
+    context.checking(new Expectations(){{
+      oneOf(accountView).getEnteredAmount();
+      will(returnValue(""));
+
+      oneOf(accountView).clearInputField();
+      oneOf(accountView).incorrectInputNotification();
+    }});
+
+    accountPresenter.withdraw();
+  }
+
+  @Test
+  public void negativeAmountNotAllowedToWithdraw() {
+
+    context.checking(new Expectations(){{
+      oneOf(accountView).getEnteredAmount();
+      will(returnValue("-100.0"));
+
+      oneOf(accountView).clearInputField();
+      oneOf(accountView).negativeWithdrawNotification();
     }});
 
     accountPresenter.withdraw();
@@ -172,7 +201,7 @@ public class AccountPresenterTest {
       oneOf(rpcService).withdraw(with(amountInstanceMatcher), with(callbackInstanceMatcher));
 
       oneOf(accountView).clearInputField();
-      oneOf(accountView).insufficientFunds();
+      oneOf(accountView).insufficientFundsNotification();
     }});
 
     accountPresenter.withdraw();
@@ -180,30 +209,19 @@ public class AccountPresenterTest {
   }
 
   @Test
-  public void withdrawNotExecutedWhenEnteredEmptyAmount() {
+  public void cannotDepositAmountBiggerThanTenThousand() {
 
     context.checking(new Expectations(){{
       oneOf(accountView).getEnteredAmount();
-      will(returnValue(""));
+      will(returnValue("500.0"));
+
+      oneOf(rpcService).withdraw(with(amountInstanceMatcher), with(callbackInstanceMatcher));
 
       oneOf(accountView).clearInputField();
-      oneOf(accountView).invalidInput();
+      oneOf(accountView).exceededDepositNotification();
     }});
 
     accountPresenter.withdraw();
-  }
-
-  @Test
-  public void negativeAmountNotAllowedToWithdraw() {
-
-    context.checking(new Expectations(){{
-      oneOf(accountView).getEnteredAmount();
-      will(returnValue("-100.0"));
-
-      oneOf(accountView).clearInputField();
-      oneOf(accountView).negativeWithdraw();
-    }});
-
-    accountPresenter.withdraw();
+    callbackInstanceMatcher.getInstance().onFailure(new ExceededDepositException());
   }
 }
