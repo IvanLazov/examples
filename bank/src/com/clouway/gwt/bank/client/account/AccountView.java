@@ -8,19 +8,21 @@ public interface AccountView {
   public interface Presenter {
     void deposit();
     void withdraw();
+    void logoutUser();
   }
 
   void setPresenter(Presenter presenter);
-  void updateBalance(String amount);
   void clearInputField();
-  void successfulDeposit();
-  void zeroAmountDeposit();
-  void exceededDeposit();
-  void negativeDeposit();
-  void invalidInput();
-  void successfulWithdraw();
-  void zeroAmountWithdraw();
-  void insufficientFunds();
-  void negativeWithdraw();
   String getEnteredAmount();
+
+  void updatedBalanceNotification(String amount);
+  void successfulDepositNotification();
+  void zeroDepositNotification();
+  void exceededDepositNotification();
+  void negativeDepositNotification();
+  void incorrectInputNotification();
+  void successfulWithdrawNotification();
+  void zeroWithdrawNotification();
+  void insufficientFundsNotification();
+  void negativeWithdrawNotification();
 }
