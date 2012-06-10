@@ -49,7 +49,7 @@ public class DatabaseHelper {
     return autoIncrementKey;
   }
 
-  public <T> T executeQuery(String query, ResultSetMapper<T> resultSetMapper, Object... params) {
+  public <T> T executeQuery(String query, ResultSetBuilder<T> resultSetBuilder, Object... params) {
 
     Connection connection = null;
     PreparedStatement preparedStatement = null;
@@ -62,7 +62,7 @@ public class DatabaseHelper {
       ResultSet resultSet = preparedStatement.executeQuery();
 
       if (resultSet.next()) {
-        object = resultSetMapper.map(resultSet);
+        object = resultSetBuilder.build(resultSet);
       }
     } catch (SQLException e) {
       e.printStackTrace();
