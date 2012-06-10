@@ -1,11 +1,9 @@
-package com.clouway.gwt.bank.client.account;
+package com.clouway.gwt.bank.server.account;
 
-import com.clouway.gwt.bank.client.exceptions.DepositZeroAmountException;
-import com.clouway.gwt.bank.client.exceptions.ExcessDepositAmountException;
-import com.clouway.gwt.bank.client.exceptions.InsufficientFundsException;
-import com.clouway.gwt.bank.client.exceptions.NegativeDepositAmountException;
-import com.clouway.gwt.bank.client.exceptions.NegativeWithdrawAmountException;
-import com.clouway.gwt.bank.client.exceptions.WithdrawZeroAmountException;
+import com.clouway.gwt.bank.shared.exceptions.ExceededDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InsufficientFundsException;
+import com.clouway.gwt.bank.shared.exceptions.InvalidDepositException;
+import com.clouway.gwt.bank.shared.exceptions.InvalidWithdrawException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,19 +28,19 @@ public class AccountTest {
     assertEquals(600.0, account.getBalance());
   }
 
-  @Test(expected = DepositZeroAmountException.class)
+  @Test(expected = InvalidDepositException.class)
   public void depositZeroAmount() {
     account.deposit(0);
     assertEquals(balance, account.getBalance());
   }
 
-  @Test(expected = ExcessDepositAmountException.class)
+  @Test(expected = ExceededDepositException.class)
   public void depositExcessAmount() {
     account.deposit(11000.0);
     assertEquals(balance, account.getBalance());
   }
 
-  @Test(expected = NegativeDepositAmountException.class)
+  @Test(expected = InvalidDepositException.class)
   public void depositNegativeAmount() {
     account.deposit(-100.0);
     assertEquals(balance, account.getBalance());
@@ -60,13 +58,13 @@ public class AccountTest {
     assertEquals(balance, account.getBalance());
   }
 
-  @Test(expected = WithdrawZeroAmountException.class)
+  @Test(expected = InvalidWithdrawException.class)
   public void withdrawZeroAmount() {
     account.withdraw(0);
     assertEquals(balance, account.getBalance());
   }
 
-  @Test(expected = NegativeWithdrawAmountException.class)
+  @Test(expected = InvalidWithdrawException.class)
   public void withdrawNegativeAmount()  {
     account.withdraw(-100.0);
     assertEquals(balance, account.getBalance());
