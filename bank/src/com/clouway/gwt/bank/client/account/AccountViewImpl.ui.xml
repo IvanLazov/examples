@@ -6,6 +6,7 @@
     <g:TextBox ui:field="input" />
     <g:Button ui:field="deposit" text="Deposit"/>
     <g:Button ui:field="withdraw" text="Withdraw"/>
+    <g:Button ui:field="logout" text="Logout"/>
     <g:Label ui:field="message" />
   </g:HTMLPanel>
 </ui:UiBinder>
