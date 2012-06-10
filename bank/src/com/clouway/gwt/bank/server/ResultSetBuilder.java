@@ -5,6 +5,6 @@ import java.sql.ResultSet;
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
-public interface ResultSetMapper<T> {
-  T map(ResultSet resultSet);
+public interface ResultSetBuilder<T> {
+  T build(ResultSet resultSet);
 }
