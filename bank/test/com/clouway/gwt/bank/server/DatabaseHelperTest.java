@@ -1,5 +1,6 @@
 package com.clouway.gwt.bank.server;
 
+import com.clouway.gwt.bank.server.user.UserResultSetBuilder;
 import com.clouway.gwt.bank.shared.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,15 +22,17 @@ public class DatabaseHelperTest {
   @Before
   public void setUp() {
     databaseHelper = new DatabaseHelper();
-    databaseHelper.executeQuery("DELETE FROM user");
+    databaseHelper.executeQuery("DELETE FROM session");
     databaseHelper.executeQuery("DELETE FROM account");
+    databaseHelper.executeQuery("DELETE FROM user");
+
     databaseHelper.executeQuery("INSERT INTO user(username,password) VALUES (?,?)", username, password);
   }
 
   @Test
   public void testInsertStatement() {
 
-    User actual = databaseHelper.executeQuery("SELECT * FROM user WHERE username=? AND password=?", new UserResultSetMapper(), username, password);
+    User actual = databaseHelper.executeQuery("SELECT * FROM user WHERE username=? AND password=?", new UserResultSetBuilder(), username, password);
     assertThat(username, is(equalTo(actual.getUsername())));
     assertThat(password, is(equalTo(actual.getPassword())));
   }
@@ -38,7 +41,7 @@ public class DatabaseHelperTest {
   public void testDeleteStatement() {
 
     databaseHelper.executeQuery("DELETE FROM user WHERE username=?", username);
-    User actual = databaseHelper.executeQuery("SELECT * FROM user WHERE username=? AND password=?", new UserResultSetMapper(), username, password);
+    User actual = databaseHelper.executeQuery("SELECT * FROM user WHERE username=? AND password=?", new UserResultSetBuilder(), username, password);
     assertNull(actual);
   }
 
@@ -46,7 +49,7 @@ public class DatabaseHelperTest {
   public void testUpdateStatement() {
 
     databaseHelper.executeQuery("UPDATE user SET password=? WHERE username=?", "pass", username);
-    User user = databaseHelper.executeQuery("SELECT * FROM user WHERE username=?", new UserResultSetMapper(), username);
+    User user = databaseHelper.executeQuery("SELECT * FROM user WHERE username=?", new UserResultSetBuilder(), username);
     assertThat(user.getPassword(), is(equalTo("pass")));
   }
 }
