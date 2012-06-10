@@ -12,6 +12,6 @@ public interface LoginView {
   }
 
   User getUser();
-  void showWrongUsernameOrPasswordNotification();
+  void wrongUsernameOrPasswordNotification();
   void setPresenter(Presenter presenter);
 }
