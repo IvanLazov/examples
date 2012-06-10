@@ -12,3 +12,10 @@ CREATE TABLE account (
    PRIMARY KEY (accountId),
    FOREIGN KEY (userId) REFERENCES user(userId)
 )ENGINE=InnoDB;
+
+CREATE TABLE session (
+   token VARCHAR(36) NOT NULL,
+   userId BIGINT NOT NULL,
+   username VARCHAR(20) NOT NULL,
+   FOREIGN KEY (userId) REFERENCES user(userId)
+)ENGINE=InnoDB;
