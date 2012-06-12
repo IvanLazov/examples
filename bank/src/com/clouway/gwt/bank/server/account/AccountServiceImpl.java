@@ -1,6 +1,7 @@
 package com.clouway.gwt.bank.server.account;
 
 import com.clouway.gwt.bank.client.AccountService;
+import com.clouway.gwt.bank.server.ExecuteInTransaction;
 import com.clouway.gwt.bank.server.session.SessionRepository;
 import com.clouway.gwt.bank.shared.AuthorizedUser;
 import com.google.gwt.user.client.rpc.RpcToken;
@@ -31,6 +32,7 @@ public class AccountServiceImpl extends XsrfProtectedServiceServlet implements A
     this.token = (XsrfToken) token;
   }
 
+  @ExecuteInTransaction
   public double deposit(double amount) {
 
     AuthorizedUser user = sessionRepository.getUser(token.getToken());
@@ -41,6 +43,7 @@ public class AccountServiceImpl extends XsrfProtectedServiceServlet implements A
     return account.getBalance();
   }
 
+  @ExecuteInTransaction
   public double withdraw(double amount) {
 
     AuthorizedUser user = sessionRepository.getUser(token.getToken());
@@ -51,7 +54,10 @@ public class AccountServiceImpl extends XsrfProtectedServiceServlet implements A
     return account.getBalance();
   }
 
-  public void logoutUser() {
-    sessionRepository.deleteSession(token.getToken());
+  public double getBalance() {
+
+    AuthorizedUser user = sessionRepository.getUser(token.getToken());
+    Account account = accountRepository.getAccount(user.getUserId());
+    return account.getBalance();
   }
 }
