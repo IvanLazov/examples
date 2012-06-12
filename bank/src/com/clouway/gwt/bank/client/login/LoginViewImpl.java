@@ -65,4 +65,12 @@ public class LoginViewImpl extends Composite implements LoginView {
   public void wrongUsernameOrPasswordNotification() {
     notification.setText("Wrong username or password! Try again.");
   }
+
+  public void clearUsernameField() {
+    username.setText("");
+  }
+
+  public void clearPasswordField() {
+    password.setText("");
+  }
 }
