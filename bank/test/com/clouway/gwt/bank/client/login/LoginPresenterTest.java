@@ -1,8 +1,6 @@
 package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.AccountServiceAsync;
 import com.clouway.gwt.bank.client.LoginServiceAsync;
-import com.clouway.gwt.bank.client.presenter.Presenter;
 import com.clouway.gwt.bank.shared.AuthorizedUser;
 import com.clouway.gwt.bank.server.InstanceMatcher;
 import com.clouway.gwt.bank.shared.User;
@@ -12,11 +10,10 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -27,14 +24,17 @@ public class LoginPresenterTest {
   private Mockery context = new JUnit4Mockery();
 
   private LoginServiceAsync rpcService = context.mock(LoginServiceAsync.class);
-  private AccountServiceAsync accountRpcService = context.mock(AccountServiceAsync.class);
   private LoginView loginView = context.mock(LoginView.class);
-  private Map<String, Presenter> userPages = new HashMap<String, Presenter>();
-
-  private LoginPresenter loginPresenter = new LoginPresenter(userPages, accountRpcService, rpcService, loginView);
 
   private InstanceMatcher<User> userInstanceMatcher = new InstanceMatcher<User>();
   private InstanceMatcher<AsyncCallback<AuthorizedUser>> callbackInstanceMatcher = new InstanceMatcher<AsyncCallback<AuthorizedUser>>();
+
+  private LoginPresenter loginPresenter;
+
+  @Before
+  public void setUp() {
+    loginPresenter = new LoginPresenter(rpcService, loginView);
+  }
 
   @Test
   public void happyPath() {
