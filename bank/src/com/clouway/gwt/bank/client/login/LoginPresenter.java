@@ -1,9 +1,6 @@
 package com.clouway.gwt.bank.client.login;
 
-import com.clouway.gwt.bank.client.AccountServiceAsync;
 import com.clouway.gwt.bank.client.LoginServiceAsync;
-import com.clouway.gwt.bank.client.account.AccountPresenter;
-import com.clouway.gwt.bank.client.account.AccountViewImpl;
 import com.clouway.gwt.bank.client.presenter.Presenter;
 import com.clouway.gwt.bank.shared.AuthorizedUser;
 import com.clouway.gwt.bank.shared.User;
@@ -14,21 +11,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-import java.util.Map;
-
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
 public class LoginPresenter implements Presenter, LoginView.Presenter {
 
-  private final Map<String, Presenter> userPages;
-  private final AccountServiceAsync accountRpcService;
   private final LoginServiceAsync loginRpcService;
   private final LoginView loginView;
 
-  public LoginPresenter(Map<String, Presenter> userPages, AccountServiceAsync accountRpcService, LoginServiceAsync loginRpcService, LoginView loginView) {
-    this.userPages = userPages;
-    this.accountRpcService = accountRpcService;
+  public LoginPresenter(LoginServiceAsync loginRpcService, LoginView loginView) {
+
     this.loginRpcService = loginRpcService;
     this.loginView = loginView;
   }
@@ -56,7 +48,8 @@ public class LoginPresenter implements Presenter, LoginView.Presenter {
       }
 
       public void onSuccess(AuthorizedUser result) {
-        userPages.put("account", new AccountPresenter(accountRpcService, new AccountViewImpl()));
+        loginView.clearUsernameField();
+        loginView.clearPasswordField();
         History.newItem("account");
       }
     });
