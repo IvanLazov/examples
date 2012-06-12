@@ -1,8 +1,11 @@
 package com.clouway.gwt.bank.server.session;
 
 import com.clouway.gwt.bank.server.DatabaseHelper;
+import com.clouway.gwt.bank.server.SampleModule;
 import com.clouway.gwt.bank.shared.AuthorizedUser;
 import com.clouway.gwt.bank.shared.User;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,13 +18,14 @@ import static org.junit.Assert.assertThat;
  */
 public class SessionRepositoryImplTest {
 
-  private DatabaseHelper databaseHelper = new DatabaseHelper();
+  private Injector injector = Guice.createInjector(new SampleModule());
   private final User user = new User(1, "Test", "password");
 
   private SessionRepositoryImpl repository;
 
   @Before
   public void setUp() {
+    DatabaseHelper databaseHelper = injector.getInstance(DatabaseHelper.class);
     databaseHelper.executeQuery("DELETE FROM session");
     databaseHelper.executeQuery("DELETE FROM account");
     databaseHelper.executeQuery("DELETE FROM user");
@@ -37,6 +41,7 @@ public class SessionRepositoryImplTest {
     String tokenValue = "abcd1234";
 
     repository.createSession(tokenValue, user.getUserId(), user.getUsername());
+
     AuthorizedUser authorizedUser = repository.getUser(tokenValue);
 
     assertThat(authorizedUser.getTokenValue(), is(equalTo(tokenValue)));
