@@ -54,36 +54,16 @@ public class AccountViewImpl extends Composite implements AccountView {
     message.setText("Deposit was successful!");
   }
 
-  public void zeroDepositNotification() {
-    message.setText("Zero amount cannot be deposited!");
-  }
-
-  public void exceededDepositNotification() {
-    message.setText("You cannot deposit amount bigger than 10,000");
-  }
-
-  public void incorrectInputNotification() {
-    message.setText("You have entered invalid amount!");
+  public void invalidDepositNotification() {
+    message.setText("You can deposit amount from 1$ - 10,000$");
   }
 
   public void successfulWithdrawNotification() {
     message.setText("Withdraw was successful!");
   }
 
-  public void zeroWithdrawNotification() {
-    message.setText("Zero amount cannot be withdraw!");
-  }
-
-  public void insufficientFundsNotification() {
-    message.setText("Cannot withdraw! Insufficient funds!");
-  }
-
-  public void negativeWithdrawNotification() {
-    message.setText("Negative amount not allowed to withdraw!");
-  }
-
-  public void negativeDepositNotification() {
-    message.setText("Negative amount not allowed to deposit!");
+  public void invalidWithdrawNotification() {
+    message.setText("You can withdraw amount or the entire amount from your account!");
   }
 
   public void setPresenter(Presenter presenter) {
