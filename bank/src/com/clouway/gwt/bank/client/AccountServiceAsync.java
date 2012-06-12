@@ -7,5 +7,5 @@ public interface AccountServiceAsync {
   void deposit(double amount, AsyncCallback<Double> async);
   void withdraw(double amount, AsyncCallback<Double> async);
 
-  void logoutUser(AsyncCallback<Void> async);
+  void getBalance(AsyncCallback<Double> async);
 }
