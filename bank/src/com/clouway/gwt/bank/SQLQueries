@@ -14,7 +14,7 @@ CREATE TABLE account (
 )ENGINE=InnoDB;
 
 CREATE TABLE session (
-   token VARCHAR(36) NOT NULL,
+   token VARCHAR(36) NOT NULL UNIQUE,
    userId BIGINT NOT NULL,
    username VARCHAR(20) NOT NULL,
    FOREIGN KEY (userId) REFERENCES user(userId)
