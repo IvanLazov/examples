@@ -14,4 +14,6 @@ public interface LoginView {
   User getUser();
   void wrongUsernameOrPasswordNotification();
   void setPresenter(Presenter presenter);
+  void clearUsernameField();
+  void clearPasswordField();
 }
