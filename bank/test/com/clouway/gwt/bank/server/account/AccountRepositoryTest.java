@@ -1,7 +1,10 @@
 package com.clouway.gwt.bank.server.account;
 
 import com.clouway.gwt.bank.server.DatabaseHelper;
+import com.clouway.gwt.bank.server.SampleModule;
 import com.clouway.gwt.bank.shared.User;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,13 +17,15 @@ import static org.junit.Assert.assertThat;
  */
 public class AccountRepositoryTest {
 
-  private AccountRepositoryImpl accountRepository;
+  private Injector injector = Guice.createInjector(new SampleModule());
 
-  private DatabaseHelper databaseHelper = new DatabaseHelper();
+  private AccountRepositoryImpl accountRepository;
   private User user = new User(1, "Test", "password");
 
   @Before
   public void setUp() {
+
+    DatabaseHelper databaseHelper = injector.getInstance(DatabaseHelper.class);
     accountRepository = new AccountRepositoryImpl(databaseHelper);
 
     databaseHelper.executeQuery("DELETE FROM session");
