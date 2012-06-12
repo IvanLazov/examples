@@ -1,5 +1,6 @@
 package com.clouway.gwt.bank.server;
 
+import com.google.inject.Provider;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -13,21 +14,21 @@ import java.sql.SQLException;
 public class TransactionInterceptor implements MethodInterceptor {
 
   @Inject
-  private Connection connection;
+  private Provider<Connection> connection;
 
   public Object invoke(MethodInvocation invocation) throws Throwable {
 
-    connection.setAutoCommit(false);
+    connection.get().setAutoCommit(false);
 
     Object object = null;
 
     try {
       object = invocation.proceed();
     } catch (SQLException exception) {
-      connection.rollback();
+      connection.get().rollback();
     }
 
-    connection.setAutoCommit(true);
+    connection.get().setAutoCommit(true);
     return object;
   }
 }

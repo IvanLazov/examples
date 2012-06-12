@@ -1,6 +1,7 @@
 package com.clouway.gwt.bank.server;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +14,14 @@ import java.sql.SQLException;
 public class DatabaseHelper {
 
   @Inject
-  private Connection connection;
+  private Provider<Connection> connection;
 
   public long executeQuery(String query, Object... params) {
 
     long autoIncrementKey = -1;
 
     try {
-      PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+      PreparedStatement preparedStatement = connection.get().prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
       fillPreparedStatement(preparedStatement, params);
       preparedStatement.executeUpdate();
 
@@ -44,7 +45,7 @@ public class DatabaseHelper {
     T object = null;
 
     try {
-      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      PreparedStatement preparedStatement = connection.get().prepareStatement(query);
       fillPreparedStatement(preparedStatement, params);
       ResultSet resultSet = preparedStatement.executeQuery();
 
