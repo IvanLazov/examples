@@ -44,10 +44,12 @@ public class LoginServiceImpl extends XsrfProtectedServiceServlet implements Log
     if (returnedUser == null) {
       throw new WrongUsernameOrPasswordException();
     }
-
     sessionRepository.createSession(token.getToken(), returnedUser.getUserId(), returnedUser.getUsername());
-    AuthorizedUser authorizedUser = sessionRepository.getUser(token.getToken());
 
-    return authorizedUser;
+    return sessionRepository.getUser(token.getToken());
   }
+
+  /*protected void setToken(XsrfToken token) {
+    this.token = token;
+  }*/
 }
