@@ -2,7 +2,8 @@ package com.clouway.gwt.bank.server;
 
 import com.clouway.gwt.bank.server.user.UserResultSetBuilder;
 import com.clouway.gwt.bank.shared.User;
-import org.junit.After;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class DatabaseHelperTest {
 
-  private SampleConnectionProvider connectionProvider = new SampleConnectionProvider("bankTest");
+  private Injector injector = Guice.createInjector(new SampleModule());
   private DatabaseHelper databaseHelper;
 
   private String username = "Test";
@@ -24,7 +25,8 @@ public class DatabaseHelperTest {
 
   @Before
   public void setUp() {
-    databaseHelper = new DatabaseHelper(connectionProvider);
+
+    databaseHelper = injector.getInstance(DatabaseHelper.class);
 
     databaseHelper.executeQuery("DELETE FROM session");
     databaseHelper.executeQuery("DELETE FROM account");
@@ -56,10 +58,5 @@ public class DatabaseHelperTest {
     User user = databaseHelper.executeQuery("SELECT * FROM user WHERE username=?", new UserResultSetBuilder(), username);
     assertThat(user.getUsername(), is(equalTo(username)));
     assertThat(user.getPassword(), is(equalTo("pass")));
-  }
-
-  @After
-  public void tearDown() {
-    connectionProvider.close();
   }
 }
