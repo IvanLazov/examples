@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.fail;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
@@ -30,25 +32,30 @@ public class LoginServiceImplTest {
     loginService = new LoginServiceImpl(userRepository, sessionRepository);
   }
 
-  /*@Test
+  @Test
   public void happyPath() {
 
-    final String token = "abcd1234";
-    final User user = new User("Test", "password");
+    /*final User user = new User(1, "Test", "password");
 
     context.checking(new Expectations(){{
       oneOf(userRepository).getUser(user.getUsername());
       will(returnValue(user));
 
-      oneOf(sessionRepository).createSession(token, user.getUserId(), user.getUsername());
-      oneOf(sessionRepository).getUser(token);
+      oneOf(sessionRepository).createSession(rpcToken.getToken(), user.getUserId(), user.getUsername());
+      oneOf(sessionRepository).getUser(rpcToken.getToken());
     }});
 
-    loginService.loginUser(user);
-  }*/
+    AuthorizedUser authorizedUser = loginService.loginUser(user);
+
+    assertThat(rpcToken.getToken(), is(equalTo(authorizedUser.getTokenValue())));
+    assertThat(authorizedUser.getUserId(), is(equalTo(user.getUserId())));
+    assertThat(authorizedUser.getUsername(), is(equalTo(user.getUsername())));*/
+
+    fail();
+  }
 
   @Test(expected = WrongUsernameOrPasswordException.class)
-  public void userCantLoginWithUnexistingUser() {
+  public void userCantLoginWithUnExistingUser() {
 
     final User user = new User("Test", "password");
 
