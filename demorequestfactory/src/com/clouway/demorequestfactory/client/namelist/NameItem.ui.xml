@@ -1,0 +1,17 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:style>
+
+  </ui:style>
+
+  <g:HorizontalPanel>
+    <g:Cell verticalAlignment="ALIGN_MIDDLE">
+      <g:HTML wordWrap="true" ui:field="htmlName"/>
+    </g:Cell>
+    <g:HTML wordWrap="true" />
+    <g:Cell verticalAlignment="ALIGN_MIDDLE">
+      <g:PushButton text="X" ui:field="bDelete"/>
+    </g:Cell>
+  </g:HorizontalPanel>
+</ui:UiBinder>
