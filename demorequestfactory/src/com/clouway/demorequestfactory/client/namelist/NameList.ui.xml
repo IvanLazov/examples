@@ -1,0 +1,23 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+
+  </ui:style>
+
+  <g:VerticalPanel>
+
+    <g:VerticalPanel ui:field="pAdd"/>
+
+      <g:HorizontalPanel ui:field="pLoading">
+        <g:Image url="images/loading.gif"/>
+        <g:Cell verticalAlignment="ALIGN_MIDDLE">
+          <g:HTML wordWrap="true"> Loading Name List...</g:HTML>
+        </g:Cell>
+      </g:HorizontalPanel>
+
+      <g:HTML wordWrap="true" ui:field="pExist">No names exist yet.</g:HTML>
+
+    <g:VerticalPanel ui:field="pList"/>
+
+  </g:VerticalPanel>
+</ui:UiBinder>
