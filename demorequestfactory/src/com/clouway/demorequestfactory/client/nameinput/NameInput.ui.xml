@@ -1,0 +1,19 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:style>
+
+  </ui:style>
+
+  <g:HorizontalPanel>
+    <g:Cell verticalAlignment="ALIGN_MIDDLE">
+      <g:HTML wordWrap="true">Name</g:HTML>
+    </g:Cell>
+    <g:Cell verticalAlignment="ALIGN_MIDDLE">
+      <g:TextBox width="320px" ui:field="tbName"/>
+    </g:Cell>
+    <g:Cell verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
+      <g:PushButton text="Add" ui:field="bAdd" />
+    </g:Cell>
+  </g:HorizontalPanel>
+</ui:UiBinder>
