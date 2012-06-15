@@ -1,0 +1,7 @@
+CREATE TABLE person (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  firstname VARCHAR(36) NOT NULL,
+  lastname VARCHAR(36) NOT NULL,
+  age INT NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=InnoDB;
