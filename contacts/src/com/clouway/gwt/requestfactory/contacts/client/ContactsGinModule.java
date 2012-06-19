@@ -16,6 +16,7 @@ public class ContactsGinModule extends AbstractGinModule {
   protected void configure() {
     bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
     bind(AddContactView.class).to(AddContactViewImpl.class);
+    bind(ViewContacts.class).to(ViewContactsImpl.class);
   }
 
   @Provides @Singleton
