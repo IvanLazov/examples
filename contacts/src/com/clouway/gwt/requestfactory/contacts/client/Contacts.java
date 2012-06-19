@@ -10,7 +10,7 @@ public class Contacts implements EntryPoint {
 
   public void onModuleLoad() {
 
-    AddContactPresenter addContactPresenter = new AddContactPresenter(injector.injectContactsRequestFactory(), injector.injectAddContactView());
-    addContactPresenter.go(RootPanel.get());
+    AppController appController = new AppController(injector);
+    appController.go(RootPanel.get());
   }
 }
