@@ -5,6 +5,9 @@ package com.clouway.requestfactory.sample.server.domain;
  */
 public class Ingredient {
 
+  private Long id;
+  private Long version;
+
   private String name;
   private boolean vegan;
 
@@ -22,5 +25,21 @@ public class Ingredient {
 
   public void setVegan(boolean vegan) {
     this.vegan = vegan;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
   }
 }
