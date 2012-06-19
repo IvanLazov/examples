@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -50,13 +52,7 @@ public class DatabaseHelper {
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
-      if (connection != null) {
-        try {
-          connection.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
+      closeConnection(connection);
     }
 
     return autoIncrementKey;
@@ -83,9 +79,47 @@ public class DatabaseHelper {
 
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeConnection(connection);
     }
 
     return object;
+  }
+
+  public <T> List<T> executeQueryForList(String query, ResultSetBuilder<T> resultSetBuilder, Object... params) {
+
+    List<T> result = new ArrayList<T>();
+
+    Connection connection = null;
+
+    try {
+      connection = dataSource.getConnection();
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      fillPreparedStatement(preparedStatement, params);
+
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      while (resultSet.next()) {
+        result.add(resultSetBuilder.build(resultSet));
+      }
+
+      preparedStatement.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeConnection(connection);
+    }
+
+    return result;
+  }
+
+  private void closeConnection(Connection connection) {
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   private void fillPreparedStatement(PreparedStatement preparedStatement, Object[] params) {

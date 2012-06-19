@@ -2,6 +2,8 @@ package com.clouway.gwt.requestfactory.contacts.server.domain;
 
 import com.google.inject.Inject;
 
+import java.util.List;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
@@ -20,5 +22,9 @@ public class PersonServiceImpl implements PersonService {
 
   public Person findPerson(Long id) {
     return repository.findPerson(id);
+  }
+
+  public List<Person> findAll() {
+    return repository.findAll();
   }
 }

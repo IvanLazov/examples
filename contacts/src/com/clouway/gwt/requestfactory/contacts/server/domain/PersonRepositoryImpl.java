@@ -2,6 +2,8 @@ package com.clouway.gwt.requestfactory.contacts.server.domain;
 
 import com.google.inject.Inject;
 
+import java.util.List;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
@@ -21,5 +23,10 @@ public class PersonRepositoryImpl implements PersonRepository {
 
   public void save(Person person) {
     databaseHelper.executeQuery("INSERT INTO person(firstname,lastname,age) VALUES(?,?,?)", person.getFirstname(), person.getLastname(), person.getAge());
+  }
+
+  @Override
+  public List<Person> findAll() {
+    return databaseHelper.executeQueryForList("SELECT * FROM person", resultSetBuilder);
   }
 }
