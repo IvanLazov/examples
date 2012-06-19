@@ -12,4 +12,5 @@ public interface ContactsGinjector extends Ginjector {
 
   ContactsRequestFactory injectContactsRequestFactory();
   AddContactView injectAddContactView();
+  ViewContacts injectViewContacts();
 }
