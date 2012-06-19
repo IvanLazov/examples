@@ -1,6 +1,11 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
+
+    <div>
+      <g:Button ui:field="viewContacts">View Contacts</g:Button>
+    </div>
+
     <g:Label text="Firstname: "/>
     <g:TextBox ui:field="firstname" />
 
