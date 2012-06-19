@@ -6,6 +6,8 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.Service;
 
+import java.util.List;
+
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
@@ -15,4 +17,6 @@ public interface PersonRequest extends RequestContext {
   Request<Void> save(PersonProxy personProxy);
 
   Request<PersonProxy> findPerson(Long id);
+
+  Request<List<PersonProxy>> findAll();
 }
