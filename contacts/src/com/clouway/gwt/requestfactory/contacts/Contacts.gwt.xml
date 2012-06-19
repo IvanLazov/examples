@@ -6,6 +6,8 @@
 
   <inherits name="com.google.web.bindery.requestfactory.RequestFactory" />
 
+  <inherits name="com.google.gwt.inject.Inject" />
+
   <entry-point class='com.clouway.gwt.requestfactory.contacts.client.Contacts'/>
 
   <source path="client"/>
