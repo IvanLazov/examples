@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -30,6 +31,9 @@ public class AddContactViewImpl extends Composite implements AddContactView {
 
   @UiField
   Button save;
+
+  @UiField
+  Button viewContacts;
 
   public AddContactViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -63,4 +67,10 @@ public class AddContactViewImpl extends Composite implements AddContactView {
       presenter.save();
     }
   }
+
+  @UiHandler("viewContacts")
+  public void onViewContactsButtonClick(ClickEvent event) {
+    History.newItem("viewContacts");
+  }
+
 }
