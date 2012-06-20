@@ -19,4 +19,6 @@ public interface PersonProxy extends EntityProxy {
 
   void setAge(Integer age);
   Integer getAge();
+
+  Long getId();
 }

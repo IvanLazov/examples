@@ -9,5 +9,6 @@ public interface PersonRepository {
 
   Person findPerson(Long id);
   void save(Person person);
+  void delete(Long id);
   List<Person> findAll();
 }

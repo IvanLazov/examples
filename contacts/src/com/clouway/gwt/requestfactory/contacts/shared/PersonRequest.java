@@ -19,4 +19,6 @@ public interface PersonRequest extends RequestContext {
   Request<PersonProxy> findPerson(Long id);
 
   Request<List<PersonProxy>> findAll();
+
+  Request<Void> delete(Long id);
 }

@@ -27,4 +27,8 @@ public class PersonServiceImpl implements PersonService {
   public List<Person> findAll() {
     return repository.findAll();
   }
+
+  public void delete(Long id) {
+    repository.delete(id);
+  }
 }

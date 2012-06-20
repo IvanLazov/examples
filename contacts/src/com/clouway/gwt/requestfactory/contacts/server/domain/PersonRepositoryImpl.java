@@ -25,8 +25,11 @@ public class PersonRepositoryImpl implements PersonRepository {
     databaseHelper.executeQuery("INSERT INTO person(firstname,lastname,age) VALUES(?,?,?)", person.getFirstname(), person.getLastname(), person.getAge());
   }
 
-  @Override
   public List<Person> findAll() {
     return databaseHelper.executeQueryForList("SELECT * FROM person", resultSetBuilder);
+  }
+
+  public void delete(Long id) {
+    databaseHelper.executeQuery("DELETE FROM person WHERE id=?", id);
   }
 }
