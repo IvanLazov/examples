@@ -49,7 +49,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
       new AddContactPresenter(injector.injectContactsRequestFactory(), addContactView).go(container);
     }
 
-    if (token.equals("viewContacts")) {
+    if (token.equals("view")) {
 
       if (viewContacts == null) {
         viewContacts = injector.injectViewContacts();

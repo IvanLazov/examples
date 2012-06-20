@@ -3,7 +3,7 @@
   <g:HTMLPanel>
 
     <div>
-      <g:Button ui:field="viewContacts">View Contacts</g:Button>
+      <g:Button ui:field="view">View Contacts</g:Button>
     </div>
 
     <g:Label text="Firstname: "/>

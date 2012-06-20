@@ -10,10 +10,11 @@ import java.util.List;
 public interface ViewContacts {
 
   public interface Presenter {
-
+    void deleteContact(int rowIndex, Long id);
   }
 
   void setPresenter(Presenter presenter);
   void loadContacts(List<PersonProxy> contacts);
   void clearContacts();
+  void deleteContact(int rowIndex);
 }

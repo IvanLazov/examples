@@ -33,7 +33,7 @@ public class AddContactViewImpl extends Composite implements AddContactView {
   Button save;
 
   @UiField
-  Button viewContacts;
+  Button view;
 
   public AddContactViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -68,9 +68,9 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     }
   }
 
-  @UiHandler("viewContacts")
-  public void onViewContactsButtonClick(ClickEvent event) {
-    History.newItem("viewContacts");
+  @UiHandler("view")
+  public void onViewButtonClick(ClickEvent event) {
+    History.newItem("view");
   }
 
 }

@@ -34,12 +34,22 @@ public class ViewContactsPresenter implements Presenter, ViewContacts.Presenter 
 
     view.clearContacts();
 
-    final List<PersonProxy> contacts = new ArrayList<PersonProxy>();
     PersonRequest personRequest = requestFactory.personRequest();
 
     personRequest.findAll().fire(new Receiver<List<PersonProxy>>() {
       public void onSuccess(List<PersonProxy> response) {
         view.loadContacts(response);
+      }
+    });
+  }
+
+  public void deleteContact(final int rowIndex, Long id) {
+
+    PersonRequest personRequest = requestFactory.personRequest();
+
+    personRequest.delete(id).fire(new Receiver<Void>() {
+      public void onSuccess(Void aVoid) {
+        view.deleteContact(rowIndex);
       }
     });
   }
