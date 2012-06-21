@@ -1,10 +1,12 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:o='urn:import:com.clouway.gwt.requestfactory.contacts.client'
-        >
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
   <g:HTMLPanel>
-    <g:FlexTable ui:field="header" />
-    <!--<o:MyFlexTable ui:field="contactsTable" />-->
-    <g:FlexTable ui:field="contactsTable" />
+
+    <g:HorizontalPanel ui:field="loadingNotification">
+      <g:Image url="images/loadingNotification.gif" width="40" height="40"/>
+    </g:HorizontalPanel>
+
+    <g:FlexTable ui:field="contactsTable"/>
   </g:HTMLPanel>
 </ui:UiBinder>

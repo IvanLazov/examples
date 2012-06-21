@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,12 +31,14 @@ public class ViewContactsPresenter implements Presenter, ViewContacts.Presenter 
 
   public void loadContacts() {
 
+    view.loadingNotification(true);
     view.clearContacts();
 
     PersonRequest personRequest = requestFactory.personRequest();
 
     personRequest.findAll().fire(new Receiver<List<PersonProxy>>() {
       public void onSuccess(List<PersonProxy> response) {
+        view.loadingNotification(false);
         view.loadContacts(response);
       }
     });

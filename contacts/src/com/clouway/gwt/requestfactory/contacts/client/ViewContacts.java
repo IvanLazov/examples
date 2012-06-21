@@ -17,4 +17,5 @@ public interface ViewContacts {
   void loadContacts(List<PersonProxy> contacts);
   void clearContacts();
   void deleteContact(int rowIndex);
+  void loadingNotification(boolean visible);
 }

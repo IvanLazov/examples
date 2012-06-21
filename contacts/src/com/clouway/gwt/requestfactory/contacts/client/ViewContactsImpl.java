@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.List;
@@ -25,23 +26,15 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   private final Button deleteButton = new Button("X");
   private List<PersonProxy> loadedContacts;
 
-
-  @UiField
-  FlexTable header;
-
   @UiField
   FlexTable contactsTable;
 
+  @UiField
+  HorizontalPanel loadingNotification;
 
   public ViewContactsImpl() {
 
     initWidget(uiBinder.createAndBindUi(this));
-
-    header.setText(0, 0, "#");
-    header.setText(0, 1, "Firstname");
-    header.setText(0, 2, "Lastname");
-    header.setText(0, 3, "Age");
-    header.setText(0, 4, "Delete");
 
     contactsTable.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -69,10 +62,14 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
     for (PersonProxy contact : contacts) {
       int rowNumber = contactsTable.getRowCount();
 
-      contactsTable.setText(rowNumber, 0, String.valueOf(rowNumber + 1));
+      contactsTable.setText(rowNumber, 0, String.valueOf(rowNumber + 1) + ". ");
       contactsTable.setText(rowNumber, 1, contact.getFirstname());
       contactsTable.setText(rowNumber, 2, contact.getLastname());
       contactsTable.setText(rowNumber, 3, contact.getAge().toString());
+
+      contactsTable.getCellFormatter().setWidth(rowNumber, 1, "70");
+      contactsTable.getCellFormatter().setWidth(rowNumber, 2, "70");
+      contactsTable.getCellFormatter().setWidth(rowNumber, 3, "40");
     }
   }
 
@@ -82,5 +79,9 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
   public void deleteContact(int rowIndex) {
     contactsTable.removeRow(rowIndex);
+  }
+
+  public void loadingNotification(boolean visible) {
+    loadingNotification.setVisible(visible);
   }
 }
