@@ -1,0 +1,15 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:d='urn:import:com.clouway.gwt.editorframework.sample.client'
+        >
+  <g:HTMLPanel>
+    <div>
+      <d:PersonEditor ui:field="editor" />
+    </div>
+
+    <div>
+      <g:Button ui:field="save">Save</g:Button>
+      <g:Button ui:field="cancel">Cancel</g:Button>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

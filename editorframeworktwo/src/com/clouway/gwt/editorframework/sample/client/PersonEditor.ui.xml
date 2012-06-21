@@ -1,0 +1,18 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:d='urn:import:com.clouway.gwt.editorframework.sample.client'
+        >
+  <g:HTMLPanel>
+    <div>
+      FirstName: <g:TextBox ui:field="firstName" />
+    </div>
+
+    <div>
+      LastName: <g:TextBox ui:field="lastName" />
+    </div>
+
+    <div>
+      <d:AddressEditor ui:field="address" />
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>
