@@ -8,6 +8,8 @@
 
   <inherits name="com.google.gwt.inject.Inject" />
 
+  <inherits name="com.google.gwt.editor.Editor" />
+
   <entry-point class='com.clouway.gwt.requestfactory.contacts.client.Contacts'/>
 
   <source path="client"/>

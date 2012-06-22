@@ -1,0 +1,17 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <g:HTMLPanel>
+    <div>
+      FirstName: <g:TextBox ui:field="firstname" />
+    </div>
+
+    <div>
+      LastName: <g:TextBox ui:field="lastname" />
+    </div>
+
+    <div>
+      Age: <g:IntegerBox ui:field="age" />
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

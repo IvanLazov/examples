@@ -1,4 +1,6 @@
-package com.clouway.gwt.requestfactory.contacts.client;
+package com.clouway.gwt.requestfactory.contacts.client.addcontact;
+
+import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -10,10 +12,7 @@ public interface AddContactView {
   }
 
   void setPresenter(Presenter presenter);
-
-  String getFirstname();
-  String getLastname();
-  String getAge();
-
+  void showWindow();
   void clearInputFields();
+  RequestFactoryEditorDriver getDriver();
 }

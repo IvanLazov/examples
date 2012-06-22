@@ -1,5 +1,7 @@
 package com.clouway.gwt.requestfactory.contacts.client;
 
+import com.clouway.gwt.requestfactory.contacts.client.addcontact.AddContactPresenter;
+import com.clouway.gwt.requestfactory.contacts.client.addcontact.AddContactView;
 import com.clouway.gwt.requestfactory.contacts.client.presenter.Presenter;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -13,7 +15,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
   private HasWidgets container;
   private AddContactView addContactView;
-  private ViewContacts viewContacts;
 
   private final ContactsGinjector injector;
 
@@ -42,19 +43,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     String token = event.getValue();
 
     if (token.equals("main")) {
-
-      if (addContactView == null) {
-        addContactView = injector.injectAddContactView();
-      }
-      new AddContactPresenter(injector.injectContactsRequestFactory(), addContactView).go(container);
+      new AddContactPresenter(injector.injectContactsRequestFactory(), injector.injectAddContactView()).go(container);
     }
 
     if (token.equals("view")) {
 
-      if (viewContacts == null) {
-        viewContacts = injector.injectViewContacts();
-      }
-      new ViewContactsPresenter(injector.injectContactsRequestFactory(), viewContacts).go(container);
+      //if (viewContacts == null) {
+      //  viewContacts = injector.injectViewContacts();
+      //}
+      //new ViewContactsPresenter(injector.injectContactsRequestFactory(), viewContacts).go(container);
     }
   }
 }

@@ -1,5 +1,6 @@
 package com.clouway.gwt.requestfactory.contacts.client;
 
+import com.clouway.gwt.requestfactory.contacts.client.addcontact.AddContactView;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
@@ -12,5 +13,4 @@ public interface ContactsGinjector extends Ginjector {
 
   ContactsRequestFactory injectContactsRequestFactory();
   AddContactView injectAddContactView();
-  ViewContacts injectViewContacts();
 }

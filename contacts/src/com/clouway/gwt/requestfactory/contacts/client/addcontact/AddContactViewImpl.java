@@ -1,15 +1,16 @@
-package com.clouway.gwt.requestfactory.contacts.client;
+package com.clouway.gwt.requestfactory.contacts.client.addcontact;
 
+import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -18,59 +19,46 @@ public class AddContactViewImpl extends Composite implements AddContactView {
 
   interface AddContactViewImplUiBinder extends UiBinder<Widget, AddContactViewImpl> {}
   private static AddContactViewImplUiBinder uiBinder = GWT.create(AddContactViewImplUiBinder.class);
+
   private Presenter presenter;
 
   @UiField
-  TextBox firstname;
-
-  @UiField
-  TextBox lastname;
-
-  @UiField
-  TextBox age;
+  AddContactEditor editor;
 
   @UiField
   Button save;
 
-  @UiField
-  Button view;
+  /**
+   * Set up the driver
+   */
+  interface Driver extends RequestFactoryEditorDriver<PersonProxy, AddContactEditor>{}
+  private final Driver driver = GWT.create(Driver.class);
 
   public AddContactViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
+    driver.initialize(editor);
   }
 
   public void setPresenter(Presenter presenter) {
     this.presenter = presenter;
   }
 
-  public String getFirstname() {
-    return firstname.getText();
-  }
-
-  public String getLastname() {
-    return lastname.getText();
-  }
-
-  public String getAge() {
-    return age.getText();
+  public void showWindow() {
+    Window.alert("Person was saved!");
   }
 
   public void clearInputFields() {
-    firstname.setText("");
-    lastname.setText("");
-    age.setText("");
+    editor.clearInputFields();
+  }
+
+  public RequestFactoryEditorDriver getDriver() {
+    return this.driver;
   }
 
   @UiHandler("save")
-  public void onSaveButtonClick(ClickEvent event) {
+  public void onButtonSaveClick(ClickEvent event) {
     if (presenter != null) {
       presenter.save();
     }
   }
-
-  @UiHandler("view")
-  public void onViewButtonClick(ClickEvent event) {
-    History.newItem("view");
-  }
-
 }

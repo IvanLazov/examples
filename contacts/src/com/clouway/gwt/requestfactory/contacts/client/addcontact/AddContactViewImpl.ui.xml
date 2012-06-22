@@ -1,0 +1,15 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:d='urn:import:com.clouway.gwt.requestfactory.contacts.client.addcontact'
+>
+
+  <g:HTMLPanel>
+    <div>
+      <d:AddContactEditor ui:field="editor" />
+    </div>
+
+    <div>
+      <g:Button ui:field="save">Save</g:Button>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>
