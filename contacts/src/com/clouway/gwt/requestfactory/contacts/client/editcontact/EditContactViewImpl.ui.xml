@@ -1,0 +1,27 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:d='urn:import:com.clouway.gwt.requestfactory.contacts.client.editcontact'>
+
+  <ui:style>
+    .panel {
+      padding: 5 10 10 10;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #dddddd;
+    }
+  </ui:style>
+
+  <g:HTMLPanel addStyleNames="{style.panel}">
+
+    <div>
+      <d:EditContactEditor ui:field="editor" />
+    </div>
+
+    <div style="margin-left: 77px;">
+      <g:Button ui:field="save">Save</g:Button>
+      <g:Button ui:field="close">Close</g:Button>
+    </div>
+
+  </g:HTMLPanel>
+
+</ui:UiBinder>

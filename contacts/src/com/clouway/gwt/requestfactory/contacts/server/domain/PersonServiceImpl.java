@@ -31,4 +31,8 @@ public class PersonServiceImpl implements PersonService {
   public void delete(Long id) {
     repository.delete(id);
   }
+
+  public void update(Person person) {
+    repository.update(person);
+  }
 }

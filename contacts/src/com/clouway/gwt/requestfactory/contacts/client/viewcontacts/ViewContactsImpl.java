@@ -1,4 +1,4 @@
-package com.clouway.gwt.requestfactory.contacts.client;
+package com.clouway.gwt.requestfactory.contacts.client.viewcontacts;
 
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.google.gwt.core.client.GWT;
@@ -24,9 +24,11 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   interface ViewContactsImplUiBinder extends UiBinder<Widget, ViewContactsImpl> {}
   private static ViewContactsImplUiBinder uiBinder = GWT.create(ViewContactsImplUiBinder.class);
 
-  private Presenter presenter;
-  private final Button deleteButton = new Button("X");
   private List<PersonProxy> loadedContacts;
+  private Presenter presenter;
+
+  private final Button deleteButton = new Button("X");
+  private final Button editButton = new Button("Edit");
 
   @UiField
   FlexTable contactsTable;
@@ -45,13 +47,22 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
       public void onClick(ClickEvent event) {
         int row = contactsTable.getCellForEvent(event).getRowIndex();
         contactsTable.setWidget(row, 4, deleteButton);
+        contactsTable.setWidget(row, 5, editButton);
       }
     });
 
     deleteButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-        int rowIndex = contactsTable.getCellForEvent(event).getRowIndex();
-        presenter.deleteContact(rowIndex, loadedContacts.get(rowIndex).getId());
+        int row = contactsTable.getCellForEvent(event).getRowIndex();
+        System.out.println("User: " + loadedContacts.get(row).getFirstname());
+        presenter.deleteContact(row, loadedContacts.get(row).getId());
+      }
+    });
+
+    editButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        int row = contactsTable.getCellForEvent(event).getRowIndex();
+        presenter.editContact(loadedContacts.get(row));
       }
     });
   }
@@ -89,6 +100,7 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
   public void deleteContact(int rowIndex) {
     contactsTable.removeRow(rowIndex);
+    loadedContacts.remove(rowIndex);
   }
 
   public void loadingNotification(boolean visible) {

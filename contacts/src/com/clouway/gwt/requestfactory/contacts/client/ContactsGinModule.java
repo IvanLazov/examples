@@ -2,6 +2,8 @@ package com.clouway.gwt.requestfactory.contacts.client;
 
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.AddContactView;
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.AddContactViewImpl;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ViewContacts;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ViewContactsImpl;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -18,7 +20,7 @@ public class ContactsGinModule extends AbstractGinModule {
   protected void configure() {
     bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
     bind(AddContactView.class).to(AddContactViewImpl.class).in(Singleton.class);
-    //bind(ViewContacts.class).to(ViewContactsImpl.class);
+    bind(ViewContacts.class).to(ViewContactsImpl.class);
   }
 
   @Provides @Singleton

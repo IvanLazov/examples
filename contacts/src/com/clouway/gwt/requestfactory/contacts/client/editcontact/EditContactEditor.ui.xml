@@ -2,22 +2,26 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
   <ui:style>
+
     .ageBox {
-      margin-left: 46px;
+      margin-left: 43px;
     }
   </ui:style>
 
   <g:HTMLPanel>
+
     <div>
-      FirstName: <g:TextBox ui:field="firstname" />
+      Firstname: <g:TextBox ui:field="firstname"/>
     </div>
 
     <div>
-      LastName: <g:TextBox ui:field="lastname" />
+      Lastname: <g:TextBox ui:field="lastname"/>
     </div>
 
     <div>
       Age: <g:IntegerBox ui:field="age" addStyleNames="{style.ageBox}"/>
     </div>
+
   </g:HTMLPanel>
+
 </ui:UiBinder>

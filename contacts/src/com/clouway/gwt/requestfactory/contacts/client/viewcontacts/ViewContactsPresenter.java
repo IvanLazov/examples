@@ -1,5 +1,7 @@
-package com.clouway.gwt.requestfactory.contacts.client;
+package com.clouway.gwt.requestfactory.contacts.client.viewcontacts;
 
+import com.clouway.gwt.requestfactory.contacts.client.editcontact.EditContactPresenter;
+import com.clouway.gwt.requestfactory.contacts.client.editcontact.EditContactViewImpl;
 import com.clouway.gwt.requestfactory.contacts.client.presenter.Presenter;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
@@ -53,5 +55,9 @@ public class ViewContactsPresenter implements Presenter, ViewContacts.Presenter 
         view.deleteContact(rowIndex);
       }
     });
+  }
+
+  public void editContact(PersonProxy person) {
+    new EditContactPresenter(requestFactory, new EditContactViewImpl(), person);
   }
 }

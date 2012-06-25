@@ -12,7 +12,7 @@
     <g:Button ui:field="addContact" addStyleNames="{style.marginBottom}">Add Contact</g:Button>
 
     <g:HorizontalPanel ui:field="loadingNotification">
-      <g:Image url="images/loadingNotification.gif" width="40" height="40"/>
+      <g:Image url="images/loadingNotification.gif" />
     </g:HorizontalPanel>
 
     <g:FlexTable ui:field="contactsTable"/>

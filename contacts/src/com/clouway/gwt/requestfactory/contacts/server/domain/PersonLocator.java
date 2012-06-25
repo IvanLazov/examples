@@ -27,7 +27,6 @@ public class PersonLocator extends Locator<Person, Long> {
   }
 
   public Person find(Class<? extends Person> clazz, Long id) {
-    // TODO: What should happen if there is no person with this id ?
     return repository.findPerson(id);
   }
 

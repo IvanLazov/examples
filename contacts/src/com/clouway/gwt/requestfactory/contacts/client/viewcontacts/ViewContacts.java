@@ -1,4 +1,4 @@
-package com.clouway.gwt.requestfactory.contacts.client;
+package com.clouway.gwt.requestfactory.contacts.client.viewcontacts;
 
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 
@@ -11,6 +11,7 @@ public interface ViewContacts {
 
   public interface Presenter {
     void deleteContact(int rowIndex, Long id);
+    void editContact(PersonProxy person);
   }
 
   void setPresenter(Presenter presenter);

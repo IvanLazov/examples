@@ -8,7 +8,6 @@ import java.sql.SQLException;
  */
 public class PersonResultSetBuilderImpl implements ResultSetBuilder<Person> {
 
-  // TODO: Used the same value of id for version
   public Person build(ResultSet resultSet) {
     Person person = null;
 

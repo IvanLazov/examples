@@ -1,4 +1,4 @@
-package com.clouway.gwt.requestfactory.contacts.client.addcontact;
+package com.clouway.gwt.requestfactory.contacts.client.editcontact;
 
 import com.clouway.gwt.requestfactory.contacts.client.presenter.Presenter;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
@@ -12,31 +12,34 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
-public class AddContactPresenter implements Presenter, AddContactView.Presenter {
+public class EditContactPresenter implements Presenter, EditContactView.Presenter {
 
   private final ContactsRequestFactory requestFactory;
-  private final AddContactView view;
+  private final EditContactView view;
 
   private RequestFactoryEditorDriver driver;
 
   private PersonProxy personProxy;
+  private PersonProxy editedPersonProxy;
   private PersonRequest personRequest;
 
-  public AddContactPresenter(ContactsRequestFactory requestFactory, AddContactView view) {
+  public EditContactPresenter(ContactsRequestFactory requestFactory, EditContactView view, PersonProxy personProxy) {
     this.requestFactory = requestFactory;
     this.view = view;
     this.view.setPresenter(this);
 
+    this.personProxy = personProxy;
     setUpDriver();
   }
 
-  /**
-   * Set up the driver
-   */
+  public void go(HasWidgets container) {
+    container.add((Widget) view);
+  }
+
   private void setUpDriver() {
 
     personRequest = requestFactory.personRequest();
-    personProxy = personRequest.create(PersonProxy.class);
+
     driver = view.getDriver();
     driver.edit(personProxy, personRequest);
   }
@@ -44,18 +47,13 @@ public class AddContactPresenter implements Presenter, AddContactView.Presenter 
   public void save() {
 
     PersonRequest request = (PersonRequest) driver.flush();
+    editedPersonProxy = request.edit(personProxy);
 
-    request.save(personProxy).fire(new Receiver<Void>() {
+    request.update(personProxy).fire(new Receiver<Void>() {
       public void onSuccess(Void aVoid) {
-        view.clearInputFields();
+        driver.edit(editedPersonProxy, requestFactory.personRequest());
         view.showNotificationWindow();
       }
     });
-
-    setUpDriver();
-  }
-
-  public void go(HasWidgets container) {
-    container.add((Widget) view);
   }
 }

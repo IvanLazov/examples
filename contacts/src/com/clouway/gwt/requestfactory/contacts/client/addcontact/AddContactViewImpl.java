@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -23,6 +24,9 @@ public class AddContactViewImpl extends Composite implements AddContactView {
   private Presenter presenter;
 
   @UiField
+  Button view;
+
+  @UiField
   AddContactEditor editor;
 
   @UiField
@@ -36,6 +40,7 @@ public class AddContactViewImpl extends Composite implements AddContactView {
 
   public AddContactViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
+
     driver.initialize(editor);
   }
 
@@ -43,8 +48,8 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     this.presenter = presenter;
   }
 
-  public void showWindow() {
-    Window.alert("Person was saved!");
+  public void showNotificationWindow() {
+    Window.alert("Person was successfully added.");
   }
 
   public void clearInputFields() {
@@ -60,5 +65,10 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     if (presenter != null) {
       presenter.save();
     }
+  }
+
+  @UiHandler("view")
+  public void onButtonViewClick(ClickEvent event) {
+    History.newItem("view");
   }
 }

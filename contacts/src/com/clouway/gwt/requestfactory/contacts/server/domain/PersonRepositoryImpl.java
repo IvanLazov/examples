@@ -32,4 +32,8 @@ public class PersonRepositoryImpl implements PersonRepository {
   public void delete(Long id) {
     databaseHelper.executeQuery("DELETE FROM person WHERE id=?", id);
   }
+
+  public void update(Person person) {
+    databaseHelper.executeQuery("UPDATE person SET firstname=?, lastname=?, age=? WHERE id=?", person.getFirstname(), person.getLastname(), person.getAge(), person.getId());
+  }
 }

@@ -11,4 +11,5 @@ public interface PersonRepository {
   void save(Person person);
   void delete(Long id);
   List<Person> findAll();
+  void update(Person person);
 }
