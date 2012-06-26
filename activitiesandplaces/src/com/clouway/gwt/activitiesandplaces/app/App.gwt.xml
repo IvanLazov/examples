@@ -1,0 +1,11 @@
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0//EN"
+        "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
+<module rename-to="App">
+
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.place.Place"/>
+  <inherits name="com.google.gwt.activity.Activity"/>
+
+  <entry-point class='com.clouway.gwt.activitiesandplaces.app.client.App'/>
+
+</module>
