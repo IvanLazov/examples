@@ -1,0 +1,21 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <g:HTMLPanel>
+
+    <g:HorizontalPanel>
+      <g:Label text="Name: " width="55px" />
+      <g:TextBox ui:field="name" width="250px" />
+    </g:HorizontalPanel>
+
+    <g:HorizontalPanel>
+      <g:Label text="Address: " width="55px" />
+      <g:TextBox ui:field="address" width="250px" />
+    </g:HorizontalPanel>
+
+    <g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT">
+      <g:Button text="Save" width="55px" ui:field="save" />
+    </g:HorizontalPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>
