@@ -1,4 +1,4 @@
-package com.clouway.gwt.requestfactory.contacts.client.addcontact;
+package com.clouway.gwt.requestfactory.contacts.client.addcontact.editor;
 
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.google.gwt.core.client.GWT;

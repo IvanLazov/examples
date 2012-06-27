@@ -1,6 +1,7 @@
 package com.clouway.gwt.requestfactory.contacts.client.editcontact;
 
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
+import com.clouway.gwt.requestfactory.contacts.shared.PersonRequest;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -45,6 +46,16 @@ public class EditContactViewImpl extends PopupPanel implements EditContactView {
     show();
 
     driver.initialize(editor);
+  }
+
+  @Override
+  public void edit(PersonProxy personProxy, PersonRequest personRequest) {
+    driver.edit(personProxy, personRequest);
+  }
+
+  @Override
+  public void fireRequest() {
+    //TODO: //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public void setPresenter(Presenter presenter) {
