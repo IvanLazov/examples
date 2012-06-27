@@ -15,16 +15,16 @@ import com.google.gwt.user.client.ui.IsWidget;
 public class HelloActivity extends AbstractActivity implements HelloView.Presenter {
 
   private AppFactory appFactory;
-  private String name;
+  private String token;
 
   public HelloActivity(HelloPlace helloPlace, AppFactory appFactory) {
-    //TODO: this.name = helloPlace.getName();
+    this.token = helloPlace.getToken();
     this.appFactory = appFactory;
   }
 
   public void start(AcceptsOneWidget panel, EventBus eventBus) {
     HelloView helloView = appFactory.getHelloView();
-    helloView.setName(name);
+    helloView.setName(token);
     helloView.setPresenter(this);
     panel.setWidget((IsWidget) helloView);
   }

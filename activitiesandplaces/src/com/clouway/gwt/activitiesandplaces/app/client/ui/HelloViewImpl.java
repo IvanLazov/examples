@@ -1,5 +1,6 @@
 package com.clouway.gwt.activitiesandplaces.app.client.ui;
 
+import com.clouway.gwt.activitiesandplaces.app.client.places.GoodbyePlace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -43,7 +44,6 @@ public class HelloViewImpl extends Composite implements HelloView {
 
   @UiHandler("link")
   public void onLinkClick(ClickEvent event) {
-    //TODO: presenter.goTo(new GoodbyePlace(name));
-
+    presenter.goTo(new GoodbyePlace(name));
   }
 }

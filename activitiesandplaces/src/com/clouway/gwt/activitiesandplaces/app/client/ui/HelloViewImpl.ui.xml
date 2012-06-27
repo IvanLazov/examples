@@ -8,8 +8,7 @@
   </ui:style>
 
   <g:HTMLPanel>
-    Hello,
-    <g:Label addStyleNames="{style.important}" ui:field="label"/>
+    Hello, <g:Label addStyleNames="{style.important}" ui:field="label"/>
     <g:Anchor ui:field="link" text="Say goodbye"/>
   </g:HTMLPanel>
 
