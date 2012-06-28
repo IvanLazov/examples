@@ -14,8 +14,6 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
   private static final ContactsRequestFactory contactsRequestFactory = GWT.create(ContactsRequestFactory.class);
   private static final EventBus eventBus = new SimpleEventBus();
   private static final PlaceController placeController = new PlaceController(eventBus);
-  //private static final AddContactView addContactView = new AddContactViewImpl();
-  //private static final AddContactPresenter addContactPresenter = new AddContactPresenter(addContactView);
 
   public ContactsRequestFactory getContactsRequestFactory() {
     return contactsRequestFactory;
@@ -29,15 +27,7 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
     return eventBus;
   }
 
-  /*public AddContactView getAddContactView() {
-    return new AddContactViewImpl();
-  }*/
-
   public void initContactRequestFactory(EventBus eventBus) {
     contactsRequestFactory.initialize(eventBus);
   }
-
-  /*public AddContactPresenter getAddContactPresenter() {
-    return addContactPresenter;
-  }*/
 }

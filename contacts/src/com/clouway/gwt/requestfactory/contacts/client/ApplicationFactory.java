@@ -13,8 +13,5 @@ public interface ApplicationFactory {
   PlaceController getPlaceController();
   EventBus getEventBus();
 
-  //AddContactView getAddContactView();
-  //AddContactPresenter getAddContactPresenter();
-
   void initContactRequestFactory(EventBus eventBus);
 }

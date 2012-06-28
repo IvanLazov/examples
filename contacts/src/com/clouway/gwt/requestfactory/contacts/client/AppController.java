@@ -41,7 +41,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     String token = event.getValue();
 
     if (token.equals("main")) {
-      new AddContactPresenter(injector.injectContactsRequestFactory(), injector.injectAddContactView()).go(container);
+      new AddContactPresenterImpl(injector.injectContactsRequestFactory(), injector.injectAddContactView()).go(container);
     }
 
     if (token.equals("view")) {
