@@ -70,22 +70,6 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     return applicationFactory.getContactsRequestFactory();
   }
 
-  //public void setApplicationFactory(ApplicationFactory applicationFactory) {
-    //this.applicationFactory = applicationFactory;
-  //}
-
-  /*public void showNotificationWindow() {
-    Window.alert("Person was successfully added.");
-  }*/
-
-  /*public void clearInputFields() {
-    editor.clearInputFields();
-  }*/
-
-  /*public RequestFactoryEditorDriver getDriver() {
-    return this.driver;
-  }*/
-
   @UiHandler("save")
   public void onButtonSaveClick(ClickEvent event) {
     if (presenter != null) {
@@ -103,9 +87,4 @@ public class AddContactViewImpl extends Composite implements AddContactView {
       }
     });
   }
-
-  /*@UiHandler("view")
-  public void onButtonViewClick(ClickEvent event) {
-    History.newItem("view");
-  }*/
 }

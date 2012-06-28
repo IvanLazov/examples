@@ -10,9 +10,5 @@ public interface AddContactView {
   }
 
   void setPresenter(Presenter presenter);
-  //void setApplicationFactory(ApplicationFactory applicationFactory);
-  //void showNotificationWindow();
-  //void clearInputFields();
-  //RequestFactoryEditorDriver getDriver();
   void fire();
 }

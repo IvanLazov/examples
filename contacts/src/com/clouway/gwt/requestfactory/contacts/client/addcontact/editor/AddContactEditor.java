@@ -27,12 +27,6 @@ public class AddContactEditor extends Composite implements Editor<PersonProxy>{
   @UiField
   IntegerBox age;
 
-  public void clearInputFields() {
-    firstname.setText("");
-    lastname.setText("");
-    age.setText("");
-  }
-
   public AddContactEditor() {
     initWidget(uiBinder.createAndBindUi(this));
   }
