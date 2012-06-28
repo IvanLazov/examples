@@ -1,4 +1,4 @@
-package com.clouway.gwt.requestfactory.contacts.client.viewcontacts;
+package com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ui;
 
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 
@@ -11,12 +11,10 @@ public interface ViewContacts {
 
   public interface Presenter {
     void deleteContact(int rowIndex, Long id);
-    void editContact(PersonProxy person);
   }
 
   void setPresenter(Presenter presenter);
   void loadContacts(List<PersonProxy> contacts);
-  void clearContacts();
   void deleteContact(int rowIndex);
   void loadingNotification(boolean visible);
 }

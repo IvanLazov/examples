@@ -1,6 +1,6 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:d='urn:import:com.clouway.gwt.requestfactory.contacts.client.editcontact'>
+             xmlns:d='urn:import:com.clouway.gwt.requestfactory.contacts.client.editcontact.editor'>
 
   <ui:style>
     .panel {

@@ -2,8 +2,8 @@ package com.clouway.gwt.requestfactory.contacts.client;
 
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.ui.AddContactView;
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.ui.AddContactViewImpl;
-import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ViewContacts;
-import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ViewContactsImpl;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ui.ViewContacts;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ui.ViewContactsImpl;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.inject.client.AbstractGinModule;

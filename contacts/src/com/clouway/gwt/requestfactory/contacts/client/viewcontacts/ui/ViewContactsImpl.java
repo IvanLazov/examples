@@ -1,13 +1,15 @@
-package com.clouway.gwt.requestfactory.contacts.client.viewcontacts;
+package com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ui;
 
+import com.clouway.gwt.requestfactory.contacts.client.addcontact.place.AddContactPlace;
+import com.clouway.gwt.requestfactory.contacts.client.editcontact.place.EditContactPlace;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -26,6 +28,7 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
   private List<PersonProxy> loadedContacts;
   private Presenter presenter;
+  private PlaceController placeController;
 
   private final Button deleteButton = new Button("X");
   private final Button editButton = new Button("Edit");
@@ -39,12 +42,15 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   @UiField
   Button addContact;
 
-  public ViewContactsImpl() {
+  public ViewContactsImpl(PlaceController placeController) {
+
+    this.placeController = placeController;
 
     initWidget(uiBinder.createAndBindUi(this));
 
     contactsTable.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
+
         int row = contactsTable.getCellForEvent(event).getRowIndex();
         contactsTable.setWidget(row, 4, deleteButton);
         contactsTable.setWidget(row, 5, editButton);
@@ -53,16 +59,17 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
     deleteButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
+
         int row = contactsTable.getCellForEvent(event).getRowIndex();
-        System.out.println("User: " + loadedContacts.get(row).getFirstname());
         presenter.deleteContact(row, loadedContacts.get(row).getId());
       }
     });
 
     editButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
+
         int row = contactsTable.getCellForEvent(event).getRowIndex();
-        presenter.editContact(loadedContacts.get(row));
+        goToPlace(loadedContacts.get(row).getId());
       }
     });
   }
@@ -72,6 +79,8 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   }
 
   public void loadContacts(List<PersonProxy> contacts) {
+
+    clearContacts();
 
     loadedContacts = contacts;
 
@@ -91,11 +100,15 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
   @UiHandler("addContact")
   public void onAddContactButtonClick(ClickEvent event) {
-    History.newItem("main");
+    placeController.goTo(new AddContactPlace());
   }
 
-  public void clearContacts() {
+  private void clearContacts() {
     contactsTable.removeAllRows();
+  }
+
+  private void goToPlace(Long id) {
+    placeController.goTo(new EditContactPlace(String.valueOf(id)));
   }
 
   public void deleteContact(int rowIndex) {

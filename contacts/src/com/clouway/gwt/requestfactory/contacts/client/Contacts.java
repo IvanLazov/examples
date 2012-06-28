@@ -23,9 +23,6 @@ public class Contacts extends ContactsGinModule implements EntryPoint {
 
   public void onModuleLoad() {
 
-    //AppController appController = new AppController(injector);
-    //appController.go(RootPanel.get());
-
     /**
      * Set up ApplicationFactory.
      * Get EventBus and PlaceController

@@ -2,6 +2,7 @@ package com.clouway.gwt.requestfactory.contacts.client.addcontact.ui;
 
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.editor.AddContactEditor;
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.place.AddContactPlace;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.place.ViewContactsPlace;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -64,8 +65,12 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     }
   }
 
-  public void goToAddContactPlace() {
+  @UiHandler("view")
+  public void onButtonViewClick(ClickEvent event) {
+    placeController.goTo(new ViewContactsPlace());
+  }
 
+  public void goToAddContactPlace() {
     placeController.goTo(new AddContactPlace());
   }
 }
