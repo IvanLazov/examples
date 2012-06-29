@@ -15,5 +15,5 @@ public interface AddContactView {
   }
 
   void setPresenter(Presenter presenter);
-  void goToAddContactPlace();
+  void goToViewContactsPlace();
 }

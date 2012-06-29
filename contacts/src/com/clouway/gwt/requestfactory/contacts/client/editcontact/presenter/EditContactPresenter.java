@@ -4,7 +4,9 @@ import com.clouway.gwt.requestfactory.contacts.client.editcontact.ui.EditContact
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonRequest;
+import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.RequestContext;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -12,35 +14,35 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 public class EditContactPresenter implements EditContactView.Presenter {
 
   private EditContactView view;
-
   private ContactsRequestFactory requestFactory;
   private PersonProxy person;
-  private PersonRequest saveRequest;
 
+  @Inject
   public EditContactPresenter(EditContactView view, ContactsRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
     this.view = view;
     this.view.setPresenter(this);
   }
 
-  public void find(String personId) {
-
-    saveRequest = requestFactory.personRequest();
+  public void editPerson(String personId) {
 
     requestFactory.personRequest().findPerson(Long.valueOf(personId)).fire(new Receiver<PersonProxy>() {
       public void onSuccess(PersonProxy personProxy) {
         person = personProxy;
-        view.edit(personProxy, saveRequest);
+
+        PersonRequest request = requestFactory.personRequest();
+        request.update(person).to(new Receiver<Void>() {
+          public void onSuccess(Void aVoid) {
+            view.goToViewContactsPlace();
+          }
+        });
+
+        view.edit(personProxy, request);
       }
     });
   }
 
-  public void save() {
-
-    saveRequest.update(person).fire(new Receiver<Void>() {
-      public void onSuccess(Void aVoid) {
-        view.goToViewContactsPlace();
-      }
-    });
+  public void onEditedPerson(RequestContext context) {
+    context.fire();
   }
 }

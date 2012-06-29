@@ -3,6 +3,7 @@ package com.clouway.gwt.requestfactory.contacts.client.viewcontacts.presenter;
 import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.ui.ViewContacts;
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
+import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class ViewContactsPresenter implements ViewContacts.Presenter {
   private ViewContacts view;
   private ContactsRequestFactory requestFactory;
 
+  @Inject
   public ViewContactsPresenter(ViewContacts view, ContactsRequestFactory requestFactory) {
     this.view = view;
     this.view.setPresenter(this);

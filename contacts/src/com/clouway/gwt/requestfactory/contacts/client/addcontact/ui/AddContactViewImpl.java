@@ -1,9 +1,9 @@
 package com.clouway.gwt.requestfactory.contacts.client.addcontact.ui;
 
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.editor.AddContactEditor;
-import com.clouway.gwt.requestfactory.contacts.client.addcontact.place.AddContactPlace;
 import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.place.ViewContactsPlace;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
+import com.clouway.gwt.requestfactory.contacts.shared.PersonRequest;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 
 /**
@@ -38,6 +39,7 @@ public class AddContactViewImpl extends Composite implements AddContactView {
   interface Driver extends RequestFactoryEditorDriver<PersonProxy, AddContactEditor>{}
   private final Driver driver = GWT.create(Driver.class);
 
+  @Inject
   public AddContactViewImpl(PlaceController placeController) {
 
     this.placeController = placeController;
@@ -51,7 +53,10 @@ public class AddContactViewImpl extends Composite implements AddContactView {
 
     this.presenter = presenter;
 
-    driver.edit(presenter.getPersonProxy(), presenter.getPersonRequest());
+    PersonRequest request = presenter.getPersonRequest();
+    PersonProxy person = presenter.getPersonProxy();
+
+    driver.edit(person, request);
   }
 
   @UiHandler("save")
@@ -70,7 +75,7 @@ public class AddContactViewImpl extends Composite implements AddContactView {
     placeController.goTo(new ViewContactsPlace());
   }
 
-  public void goToAddContactPlace() {
-    placeController.goTo(new AddContactPlace());
+  public void goToViewContactsPlace() {
+    placeController.goTo(new ViewContactsPlace());
   }
 }

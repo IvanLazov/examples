@@ -1,34 +1,37 @@
 package com.clouway.gwt.requestfactory.contacts.client.editcontact.activity;
 
-import com.clouway.gwt.requestfactory.contacts.client.ApplicationFactory;
-import com.clouway.gwt.requestfactory.contacts.client.editcontact.place.EditContactPlace;
 import com.clouway.gwt.requestfactory.contacts.client.editcontact.presenter.EditContactPresenter;
 import com.clouway.gwt.requestfactory.contacts.client.editcontact.ui.EditContactView;
-import com.clouway.gwt.requestfactory.contacts.client.editcontact.ui.EditContactViewImpl;
+import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.inject.Inject;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
 public class EditContactActivity extends AbstractActivity {
 
-  private ApplicationFactory applicationFactory;
-  private EditContactPlace place;
+  @Inject
+  EditContactView view;
 
-  public EditContactActivity(ApplicationFactory applicationFactory, EditContactPlace place) {
+  @Inject
+  ContactsRequestFactory requestFactory;
 
-    this.applicationFactory = applicationFactory;
-    this.place = place;
+  @Inject
+  EditContactPresenter presenter;
+
+  private String personId;
+
+  public void setPersonId(String personId) {
+    this.personId = personId;
   }
 
   public void start(AcceptsOneWidget panel, EventBus eventBus) {
 
-    EditContactView view = new EditContactViewImpl(applicationFactory.getPlaceController());
-    EditContactPresenter presenter = new EditContactPresenter(view, applicationFactory.getContactsRequestFactory());
-    presenter.find(place.getPersonId());
+    presenter.editPerson(personId);
 
     panel.setWidget((IsWidget) view);
   }

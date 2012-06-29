@@ -1,8 +1,7 @@
 package com.clouway.gwt.requestfactory.contacts.client;
 
-import com.clouway.gwt.requestfactory.contacts.client.addcontact.place.AddContactPlace;
-import com.clouway.gwt.requestfactory.contacts.client.mapper.ApplicationActivityMapper;
 import com.clouway.gwt.requestfactory.contacts.client.mapper.ApplicationPlaceHistoryMapper;
+import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.place.ViewContactsPlace;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
@@ -16,30 +15,22 @@ import com.google.web.bindery.event.shared.EventBus;
 
 public class Contacts extends ContactsGinModule implements EntryPoint {
 
-  //private final ContactsGinjector injector = GWT.create(ContactsGinjector.class);
-
   private SimplePanel display = new SimplePanel();
-  private Place place = new AddContactPlace();
+  private Place place = new ViewContactsPlace();
 
   public void onModuleLoad() {
 
-    /**
-     * Set up ApplicationFactory.
-     * Get EventBus and PlaceController
-     */
-    ApplicationFactory applicationFactory = new ApplicationFactoryImpl();
-    EventBus eventBus = applicationFactory.getEventBus();
-    PlaceController placeController = applicationFactory.getPlaceController();
+    ContactsGinjector injector = GWT.create(ContactsGinjector.class);
 
-    /**
-     * Init ContactRequestFactory with EventBus
-     */
-    applicationFactory.initContactRequestFactory(eventBus);
+    EventBus eventBus = injector.injectEventBus();
+
+    PlaceController placeController = injector.injectPlaceController();
+
+    ActivityMapper activityMapper = injector.injectActivityMapper();
 
     /**
      * Start ActivityManager to kick-off objects in response to events
      */
-    ActivityMapper activityMapper = new ApplicationActivityMapper(applicationFactory);
     ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
     activityManager.setDisplay(display);
 

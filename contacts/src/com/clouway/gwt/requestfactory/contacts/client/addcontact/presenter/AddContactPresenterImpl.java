@@ -4,6 +4,7 @@ import com.clouway.gwt.requestfactory.contacts.client.addcontact.ui.AddContactVi
 import com.clouway.gwt.requestfactory.contacts.shared.ContactsRequestFactory;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonProxy;
 import com.clouway.gwt.requestfactory.contacts.shared.PersonRequest;
+import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
 /**
@@ -17,14 +18,15 @@ public class AddContactPresenterImpl implements AddContactView.Presenter {
   private PersonRequest request;
   private PersonProxy person;
 
+  @Inject
   public AddContactPresenterImpl(AddContactView view, ContactsRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
-    this.request = requestFactory.personRequest();
     this.view = view;
     this.view.setPresenter(this);
   }
 
   public PersonRequest getPersonRequest() {
+    request = requestFactory.personRequest();
     return request;
   }
 
@@ -37,7 +39,7 @@ public class AddContactPresenterImpl implements AddContactView.Presenter {
 
     request.save(person).fire(new Receiver<Void>() {
       public void onSuccess(Void aVoid) {
-        view.goToAddContactPlace();
+        view.goToViewContactsPlace();
       }
     });
   }

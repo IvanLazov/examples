@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   private final Button deleteButton = new Button("X");
   private final Button editButton = new Button("Edit");
 
+  private int clickedRow;
+
   @UiField
   FlexTable contactsTable;
 
@@ -42,6 +45,7 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   @UiField
   Button addContact;
 
+  @Inject
   public ViewContactsImpl(PlaceController placeController) {
 
     this.placeController = placeController;
@@ -51,25 +55,21 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
     contactsTable.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
 
-        int row = contactsTable.getCellForEvent(event).getRowIndex();
-        contactsTable.setWidget(row, 4, deleteButton);
-        contactsTable.setWidget(row, 5, editButton);
+        clickedRow = contactsTable.getCellForEvent(event).getRowIndex();
+        contactsTable.setWidget(clickedRow, 4, deleteButton);
+        contactsTable.setWidget(clickedRow, 5, editButton);
       }
     });
 
     deleteButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-
-        int row = contactsTable.getCellForEvent(event).getRowIndex();
-        presenter.deleteContact(row, loadedContacts.get(row).getId());
+        presenter.deleteContact(clickedRow, loadedContacts.get(clickedRow).getId());
       }
     });
 
     editButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-
-        int row = contactsTable.getCellForEvent(event).getRowIndex();
-        goToPlace(loadedContacts.get(row).getId());
+        goToPlace(loadedContacts.get(clickedRow).getId());
       }
     });
   }
@@ -80,7 +80,7 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
 
   public void loadContacts(List<PersonProxy> contacts) {
 
-    clearContacts();
+    contactsTable.removeAllRows();
 
     loadedContacts = contacts;
 
@@ -101,10 +101,6 @@ public class ViewContactsImpl extends Composite implements ViewContacts {
   @UiHandler("addContact")
   public void onAddContactButtonClick(ClickEvent event) {
     placeController.goTo(new AddContactPlace());
-  }
-
-  private void clearContacts() {
-    contactsTable.removeAllRows();
   }
 
   private void goToPlace(Long id) {

@@ -13,7 +13,9 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
+import com.google.web.bindery.requestfactory.shared.RequestContext;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
@@ -38,6 +40,7 @@ public class EditContactViewImpl extends Composite implements EditContactView {
   @UiField
   Button close;
 
+  @Inject
   public EditContactViewImpl(PlaceController placeController) {
 
     this.placeController = placeController;
@@ -58,8 +61,8 @@ public class EditContactViewImpl extends Composite implements EditContactView {
   @UiHandler("save")
   public void onButtonSaveClick(ClickEvent event) {
     if (presenter != null) {
-      driver.flush();
-      presenter.save();
+      RequestContext context = driver.flush();
+      presenter.onEditedPerson(context);
     }
   }
 

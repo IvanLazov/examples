@@ -1,7 +1,5 @@
 package com.clouway.gwt.requestfactory.contacts.client.mapper;
 
-import com.clouway.gwt.requestfactory.contacts.client.ApplicationFactory;
-
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.activity.AddContactActivity;
 import com.clouway.gwt.requestfactory.contacts.client.addcontact.place.AddContactPlace;
 import com.clouway.gwt.requestfactory.contacts.client.editcontact.activity.EditContactActivity;
@@ -11,30 +9,36 @@ import com.clouway.gwt.requestfactory.contacts.client.viewcontacts.place.ViewCon
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
 
 /**
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
 public class ApplicationActivityMapper implements ActivityMapper {
 
-  private ApplicationFactory applicationFactory;
+  @Inject
+  AddContactActivity addContactActivity;
 
-  public ApplicationActivityMapper(ApplicationFactory applicationFactory) {
-    this.applicationFactory = applicationFactory;
-  }
+  @Inject
+  ViewContactsActivity viewContactsActivity;
+
+  @Inject
+  EditContactActivity editContactActivity;
 
   public Activity getActivity(Place place) {
 
     if (place instanceof AddContactPlace) {
-      return new AddContactActivity(applicationFactory);
+      return addContactActivity;
     }
 
     if (place instanceof ViewContactsPlace) {
-      return new ViewContactsActivity(applicationFactory);
+      return viewContactsActivity;
     }
 
     if (place instanceof EditContactPlace) {
-      return new EditContactActivity(applicationFactory, (EditContactPlace) place);
+
+      editContactActivity.setPersonId(((EditContactPlace) place).getPersonId());
+      return editContactActivity;
     }
 
     return null;
