@@ -7,6 +7,8 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
+ * Test
+ * Test
  * @author Ivan Lazov <darkpain1989@gmail.com>
  */
 @GinModules(ContactsGinModule.class)
